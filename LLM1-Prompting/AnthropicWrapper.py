@@ -84,6 +84,21 @@ class ClaudeChatHistory(ClaudeChat):
 
     def get_message_history(self):
         return self.message_history
+    
+    def get_conversation(self):
+        testlist = []
+        for message in self.message_history:
+            if message.get("role") == "user" and "The following is a document that I am providing you with." in message.get("content", ""):
+                testlist.append("Document Included, please use ClaudeChatDocument.get_document() to view document\n")
+                testlist.append("-" * 20 + "\n") 
+            else:
+                for key, value in message.items():
+                    testlist.append(f"{key}: {value}\n")
+                testlist.append("-" * 20 + "\n") 
+
+        yeet = "".join(testlist)
+
+        return yeet
 
 
 
@@ -136,3 +151,51 @@ class ClaudeChatDocument(ClaudeChatHistory):
     def get_document(self):
         return self.document
     
+class ClaudeChatCV(ClaudeChatHistory):
+    
+    def __init__(self, model, systemprompt, document):
+        
+        super().__init__(model, systemprompt)
+        self.document = self._process_pdf(document, force=True)
+        self.documentprompt = "The following is a CV that I am providing you with. You are to keep this document in the back of your mind and consider it or use it, should it be relevant to the discussion."
+        documentstr  = self.documentprompt + "\n\n Document below: \n\n" + self.document
+        self.message_history.append({"role": "user", "content": documentstr})
+        self.message_history.append({"role": "assistant", "content": "Understood! I'll keep this CV in the back of my mind and use it should it be relevant to the discussion."})
+
+
+    def chat_with_history_doc(self, message):
+
+        content = super().chat_with_history(message)
+
+        return content
+
+    def _process_pdf(self, pdf_path, force=False):
+        import fitz
+        if force or self.document is None:
+            doc = fitz.open(pdf_path)
+            extracted_text = ""
+
+            for page_num in range(doc.page_count):
+                page = doc[page_num]
+                blocks = page.get_text("blocks")
+
+                for block in blocks:
+                    text = block[4].strip()
+                    if text:
+                        if block[0] < 200 and block[3] > 12: 
+                            extracted_text += f"\n\n## {text}\n"
+                        else:
+                            extracted_text += f"{text} "
+
+            return extracted_text
+        else:
+            return self.document
+    
+    def set_document(self, document):
+
+        self.document = self._process_pdf(document, force=True)
+        documentstr  = self.documentprompt + "\n\n Document below: \n\n" + self.document
+        self.message_history[0] = {"role": "user", "content": documentstr}
+
+    def get_document(self):
+        return self.document
