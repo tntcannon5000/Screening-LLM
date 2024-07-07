@@ -5,7 +5,14 @@ from dotenv import load_dotenv
 class ClaudeChat():
 
     def __init__(self, model, systemprompt):
-        load_dotenv('.env')
+        
+        
+        # Get the path to the immediate parent folder of the current working directory
+        parent_folder_path = os.path.dirname(os.getcwd())
+        # Construct the path to the .env file in the parent folder
+        dotenv_path = os.path.join(parent_folder_path, ".env")
+        # Load the .env file
+        load_dotenv(dotenv_path)
 
         if os.getenv('ANTHROPIC_API_KEY') is None:
             os.environ["ANTHROPIC_API_KEY"] = input("Please enter your API key: ")
