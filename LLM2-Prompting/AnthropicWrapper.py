@@ -1,6 +1,30 @@
 import os
 from anthropic import Client
 from dotenv import load_dotenv
+import fitz
+
+class Utilities():
+    def process_pdf(self, pdf_path, force=False):
+        self.document = None
+        if force or self.document is None:
+            doc = fitz.open(pdf_path)
+            extracted_text = ""
+
+            for page_num in range(doc.page_count):
+                page = doc[page_num]
+                blocks = page.get_text("blocks")
+
+                for block in blocks:
+                    text = block[4].strip()
+                    if text:
+                        if block[0] < 200 and block[3] > 12: 
+                            extracted_text += f"\n\n## {text}\n"
+                        else:
+                            extracted_text += f"{text} "
+
+            return extracted_text
+        else:
+            return self.document
 
 class ClaudeChat():
 
@@ -155,8 +179,9 @@ class ClaudeChatCV(ClaudeChatHistory):
     
     def __init__(self, model, systemprompt, document):
         
+        utilities = Utilities()
         super().__init__(model, systemprompt)
-        self.document = self._process_pdf(document, force=True)
+        self.document = utilities.process_pdf(document, force=True)
         self.documentprompt = "The following is a CV that I am providing you with. You are to keep this document in the back of your mind and consider it or use it, should it be relevant to the discussion."
         documentstr  = self.documentprompt + "\n\n Document below: \n\n" + self.document
         self.message_history.append({"role": "user", "content": documentstr})
@@ -168,28 +193,6 @@ class ClaudeChatCV(ClaudeChatHistory):
         content = super().chat_with_history(message)
 
         return content
-
-    def _process_pdf(self, pdf_path, force=False):
-        import fitz
-        if force or self.document is None:
-            doc = fitz.open(pdf_path)
-            extracted_text = ""
-
-            for page_num in range(doc.page_count):
-                page = doc[page_num]
-                blocks = page.get_text("blocks")
-
-                for block in blocks:
-                    text = block[4].strip()
-                    if text:
-                        if block[0] < 200 and block[3] > 12: 
-                            extracted_text += f"\n\n## {text}\n"
-                        else:
-                            extracted_text += f"{text} "
-
-            return extracted_text
-        else:
-            return self.document
     
     def set_document(self, document):
 
