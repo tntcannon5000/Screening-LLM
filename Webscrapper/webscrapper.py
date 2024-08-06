@@ -19,8 +19,7 @@ class WebScraper:
         
         links = soup.find_all('div', class_='yuRUbf')
         urls = [link.find('a')['href'] for link in links[:self.num_pages]]
-        
-        content_blob = ""
+        all_documents = []
         for i, url in enumerate(urls):
             try:
                 loader = WebBaseLoader(
@@ -29,17 +28,11 @@ class WebScraper:
                         parse_only=bs4.SoupStrainer('body')
                     ),
                 )
-                data = loader.load()
-                
-                if data and data[0].page_content.strip():
-                    content_blob += f"\n\n--- Content from {url} ---\n\n"
-                    content_blob += data[0].page_content.strip()
-                else:
-                    print(f"No content found in the body for {url}")
+                all_documents.extend(loader.load())
             except Exception as e:
                 print(f"Error scraping {url}: {str(e)}")
         
-        return content_blob
+        return all_documents
 
     def get_scraped_data(self):
         return self.search_and_scrape()
