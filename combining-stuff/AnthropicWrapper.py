@@ -106,6 +106,9 @@ class ClaudeChatHistory(ClaudeChat):
         yeet = "".join(testlist)
 
         return yeet
+    
+    def get_conversation_dict(self):
+        return self.message_history
 
 
 
