@@ -9,42 +9,8 @@ from langchain_core.output_parsers import StrOutputParser
 from operator import itemgetter
 from webscraper import WebScraper
 
-def extract_qa_from_pdf(pdf_path):
-    doc = fitz.open(pdf_path)
-    text = ""
-    for page in doc:
-        text += page.get_text()
-    doc.close()
-    
-    lines = text.split('\n')
-    qa_dict = {}
-    current_speaker = None
-    current_message = []
-    first_user_statement = True
-    current_question = None
 
-    for line in lines:
-        if line.strip() == 'Assistant:':
-            if current_speaker == 'User' and not first_user_statement:
-                qa_dict[current_question] = ' '.join(current_message).strip()
-            current_speaker = 'Assistant'
-            current_message = []
-        elif line.strip() == 'User:':
-            if current_speaker == 'Assistant':
-                current_question = ' '.join(current_message).strip()
-            current_speaker = 'User'
-            current_message = []
-            if first_user_statement:
-                first_user_statement = False
-        elif line.strip():
-            current_message.append(line.strip())
-
-    if current_speaker == 'User' and not first_user_statement and current_question:
-        qa_dict[current_question] = ' '.join(current_message).strip()
-    qa_dict.pop(None, None)
-    return qa_dict
-
-def process_qa_pair(pdf_path):
+def process_qa_pair(chat_log):
     # Load environment variables
     load_dotenv()
 
@@ -55,7 +21,6 @@ def process_qa_pair(pdf_path):
     os.environ['OPENAI_API_KEY'] = os.getenv("OPENAI_API_KEY")
 
     # Extract Q&A from PDF
-    qa_dictionary = extract_qa_from_pdf(pdf_path)
 
     # Decomposition template
     template = """You are a helpful assistant that generates multiple sub-queries related to an answer by an interview candidate. \n
@@ -72,10 +37,12 @@ def process_qa_pair(pdf_path):
 
     # Generate queries and scrape data
     generate_queries_decomposition = (prompt_decomposition | llm | StrOutputParser() | (lambda x: x.split("\n")))
-    for question, answer in qa_dictionary.items():
+    for qa_pair in chat_log:
+        question = qa_pair['interviewer']
+        answer = qa_pair['candidate']
         queries = generate_queries_decomposition.invoke({"question": question, "answer": answer})
         for query in queries:
-            scraper = WebScraper(answer, 2)
+            scraper = WebScraper(query, 2)
             documents.extend(scraper.get_scraped_data())
 
     # Process and store documents
@@ -130,14 +97,32 @@ def process_qa_pair(pdf_path):
         | StrOutputParser()
     )
 
-    for question, answer in qa_dictionary.items():
+    for chat in chat_log:
+        question = chat['interviewer']
+        answer = chat['candidate']
         feedback = rag_chain.invoke({"answer": answer, "question": question, "q_a_pairs": q_a_pairs})
+        chat['feedback'] = feedback
         q_a_pair = format_qa_pair(question, answer, feedback)
         q_a_pairs += "\n---\n" + q_a_pair
 
-    return q_a_pairs
+    return chat_log
 
+#To Test
 if __name__ == "__main__":
-    pdf_path = input("Enter the path to the PDF file: ")
-    result = process_qa_pair(pdf_path)
+    chat_log = [
+        {
+            'interviewer': "Hello! It's nice to meet you too. Thank you for taking the time to speak with me today about the Entry-Level Machine Learning Engineer position at G-Research. To start off, could you tell me a bit about your experience with machine learning, particularly in areas like model training and optimization?",
+            'candidate': " Yeah, sure. I'd be happy to. I've got some experience in model training and optimization. I've mainly acquired this experience throughout my time at university and through competing in various competitions on Kaggle. Some of those included regression tasks where I trained extra boost algorithms to predict the age of abelones, whatever that is. I've no idea what that is, but yeah. I mean, it didn't really matter to me for the competition, but yeah. Some other ones that I've been involved in is some other stuff, yeah. I get fired immediately. I get sent out."
+        },
+        {
+            'interviewer': 'I see. Thank you for sharing that. Could you elaborate a bit more on your experience with specific machine learning libraries or frameworks like PyTorch or NumPy? How have you used these in your projects or competitions?',
+            'candidate': " To be honest, I'm not very sure."
+        },
+        {
+            'interviewer': "I understand. Let's move on to another aspect of the role. The position involves working with large datasets. Could you describe any experience you have in handling and processing large volumes of data, particularly in a machine learning context?",
+            'candidate': " Um, I've never actually done that before."
+        }
+    ]
+
+    result = process_qa_pair(chat_log)
     print(result)
