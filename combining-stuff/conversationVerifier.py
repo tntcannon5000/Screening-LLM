@@ -11,8 +11,12 @@ from webscraper import WebScraper
 
 
 def process_qa_pair(chat_log):
-    # Load environment variables
-    load_dotenv()
+    # Get the path to the immediate parent folder of the current working directory
+    parent_folder_path = os.path.dirname(os.getcwd())
+    # Construct the path to the .env file in the parent folder
+    dotenv_path = os.path.join(parent_folder_path, ".env")
+    # Load the .env file
+    load_dotenv(dotenv_path)
 
     # Set up OpenAI API
     os.environ['LANGCHAIN_TRACING_V2'] = 'true'
@@ -44,16 +48,18 @@ def process_qa_pair(chat_log):
         for query in queries:
             scraper = WebScraper(query, 2)
             documents.extend(scraper.get_scraped_data())
-
     # Process and store documents
     text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
         chunk_size=300, 
         chunk_overlap=50
     )
+    print("Breakpoint 1")
     splits = text_splitter.split_documents(documents)
+    print("Breakpoint 2")
     vectorstore = Chroma.from_documents(documents=splits, embedding=OpenAIEmbeddings())
+    print("Breakpoint 3")
     retriever = vectorstore.as_retriever()
-
+    print("Breakpoint 4")
     # Accuracy checking template
     accuracy_template = """
     Here is the question for the answer you need to check:
@@ -109,20 +115,7 @@ def process_qa_pair(chat_log):
 
 #To Test
 if __name__ == "__main__":
-    chat_log = [
-        {
-            'interviewer': "Hello! It's nice to meet you too. Thank you for taking the time to speak with me today about the Entry-Level Machine Learning Engineer position at G-Research. To start off, could you tell me a bit about your experience with machine learning, particularly in areas like model training and optimization?",
-            'candidate': " Yeah, sure. I'd be happy to. I've got some experience in model training and optimization. I've mainly acquired this experience throughout my time at university and through competing in various competitions on Kaggle. Some of those included regression tasks where I trained extra boost algorithms to predict the age of abelones, whatever that is. I've no idea what that is, but yeah. I mean, it didn't really matter to me for the competition, but yeah. Some other ones that I've been involved in is some other stuff, yeah. I get fired immediately. I get sent out."
-        },
-        {
-            'interviewer': 'I see. Thank you for sharing that. Could you elaborate a bit more on your experience with specific machine learning libraries or frameworks like PyTorch or NumPy? How have you used these in your projects or competitions?',
-            'candidate': " To be honest, I'm not very sure."
-        },
-        {
-            'interviewer': "I understand. Let's move on to another aspect of the role. The position involves working with large datasets. Could you describe any experience you have in handling and processing large volumes of data, particularly in a machine learning context?",
-            'candidate': " Um, I've never actually done that before."
-        }
-    ]
+    chat_log = [{'interviewer': "Hello! It's nice to meet you too. Thank you for taking the time to speak with me today about the Entry-Level RAG AI Engineer role. To start off, could you tell me about your experience with retrieval-augmented generation (RAG) pipelines?", 'candidate': " Yeah sure, I'd be happy to. I have a good amount of experience with retrieval augmented generated pipelines. In my current job position I developed a pipeline for web scraping a certain website which is determined by a previous step in our system. Oh my god dude. Bro, just give me a minute."}, {'interviewer': "No problem, take your time. When you're ready, could you elaborate on how you implemented the RAG pipeline in your current role? What specific technologies or frameworks did you use?", 'candidate': 'System - The candidate Ended the Interview'}]
 
     result = process_qa_pair(chat_log)
     print(result)
