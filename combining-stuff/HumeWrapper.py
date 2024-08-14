@@ -6,7 +6,7 @@ import os
 from dotenv import load_dotenv
 
 class HumeSentimentAnalyzer:
-    def __init__(self, api_key):
+    def __init__(self, api_key=os.getenv("HUME_API_KEY")):
         self.client = HumeBatchClient(api_key)
 
     def analyze_audio(self, file_path):
@@ -29,8 +29,7 @@ class HumeSentimentAnalyzer:
         result = {
             'emotions': {emotion['name']: emotion['score'] for emotion in pred['emotions']},
             'sentiments': {sentiment['name']: sentiment['score'] for sentiment in pred['sentiment']},
-            'toxicity': {toxicity['name']: toxicity['score'] for toxicity in pred['toxicity']},
-            'transcription': pred['text']
+            'toxicity': {toxicity['name']: toxicity['score'] for toxicity in pred['toxicity']}
         }
 
         return result
@@ -48,8 +47,6 @@ class HumeSentimentAnalyzer:
         for name, score in analysis['toxicity'].items():
             print(f"  {name}: {score}")
 
-        print("\nTranscription:")
-        print(" " + analysis['transcription'])
 
 # Example usage
 if __name__ == "__main__":
