@@ -2,7 +2,6 @@ import os
 from anthropic import Client
 from dotenv import load_dotenv
 
-
 class ClaudeChat():
 
     def __init__(self, model, systemprompt):
