@@ -1,18 +1,16 @@
 import os
 from anthropic import Client
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
+
+def test():
+    print("Hello from anthropicwrapper.py")
 
 class ClaudeChat():
 
     def __init__(self, model, systemprompt):
         
         
-        # Get the path to the immediate parent folder of the current working directory
-        parent_folder_path = os.path.dirname(os.getcwd())
-        # Construct the path to the .env file in the parent folder
-        dotenv_path = os.path.join(parent_folder_path, ".env")
-        # Load the .env file
-        load_dotenv(dotenv_path)
+        load_dotenv(find_dotenv())
 
         if os.getenv('ANTHROPIC_API_KEY') is None:
             os.environ["ANTHROPIC_API_KEY"] = input("Please enter your API key: ")

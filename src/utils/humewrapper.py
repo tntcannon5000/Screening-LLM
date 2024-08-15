@@ -10,17 +10,22 @@ class HumeSentimentAnalyzer:
         self.client = HumeBatchClient(api_key)
 
     def analyze_audio(self, file_path):
+        print(f"Analyzing audio file: {file_path}")
+        print(f"File exists: {os.path.exists(file_path)}")
+
         config = LanguageConfig(
             granularity="conversational_turn",
             sentiment={},
             toxicity={}
         )
         
-        job = self.client.submit_job(None, [config], files=[file_path])
-        print("Analyzing audio...")
-        job.await_complete()
-        predictions = job.get_predictions()
+        file_path = os.path.abspath(file_path)
 
+        job = self.client.submit_job(None, [config], files=[file_path])
+        print("Job submitted successfully")
+        job.await_complete()
+        print("Job completed")
+        predictions = job.get_predictions()
         return self._process_predictions(predictions)
 
     def _process_predictions(self, predictions):
@@ -31,7 +36,6 @@ class HumeSentimentAnalyzer:
             'sentiments': {sentiment['name']: sentiment['score'] for sentiment in pred['sentiment']},
             'toxicity': {toxicity['name']: toxicity['score'] for toxicity in pred['toxicity']}
         }
-
         return result
 
     def print_analysis(self, analysis):
@@ -65,5 +69,5 @@ if __name__ == "__main__":
     # Load the .env file
     load_dotenv(dotenv_path)
     analyzer = HumeSentimentAnalyzer(os.getenv("HUME_API_KEY"))
-    result = analyzer.analyze_audio(os.path.join(script_directory, "AllforOne.wav"))
+    result = analyzer.analyze_audio("D:\Hidden Desktop\OneDrive\Cross Device\Work\Project\\Code\\Screening-LLM\\data\\interviews\\1723743767\\audio\\audio_2_1723743767.wav")
     analyzer.print_analysis(result)
