@@ -53,13 +53,9 @@ def process_qa_pair(chat_log):
         chunk_size=300, 
         chunk_overlap=50
     )
-    print("Breakpoint 1")
     splits = text_splitter.split_documents(documents)
-    print("Breakpoint 2")
     vectorstore = Chroma.from_documents(documents=splits, embedding=OpenAIEmbeddings())
-    print("Breakpoint 3")
     retriever = vectorstore.as_retriever()
-    print("Breakpoint 4")
     # Accuracy checking template
     accuracy_template = """
     Here is the question for the answer you need to check:
