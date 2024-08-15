@@ -209,3 +209,53 @@ class ClaudeChatCV(ClaudeChatHistory):
 
     def get_document(self):
         return self.document
+    
+
+class ClaudeChatAssess(ClaudeChatHistory):
+    
+    def __init__(self, model, systemprompt, document):
+        
+        super().__init__(model, systemprompt)
+        self.document = self._process_pdf(document, force=True)
+        self.documentprompt = """The following the candidate's CV that I am providing you with, in addition to the candidate's information which will be provided shortly. Respond with "Understood!" and we'll proceed. """
+        documentstr  = self.documentprompt + "\n\n Document below: \n\n" + self.document
+        self.message_history.append({"role": "user", "content": documentstr})
+        self.message_history.append({"role": "assistant", "content": "Understood!"})
+
+
+    def chat_with_history_doc(self, message):
+
+        content = super().chat_with_history(message)
+
+        return content
+
+    def _process_pdf(self, pdf_path, force=False):
+        import fitz
+        if force or self.document is None:
+            doc = fitz.open(pdf_path)
+            extracted_text = ""
+
+            for page_num in range(doc.page_count):
+                page = doc[page_num]
+                blocks = page.get_text("blocks")
+
+                for block in blocks:
+                    text = block[4].strip()
+                    if text:
+                        if block[0] < 200 and block[3] > 12: 
+                            extracted_text += f"\n\n## {text}\n"
+                        else:
+                            extracted_text += f"{text} "
+
+            return extracted_text
+        else:
+            return self.document
+    
+    def set_document(self, document):
+
+        self.document = self._process_pdf(document, force=True)
+        documentstr  = self.documentprompt + "\n\n Document below: \n\n" + self.document
+        self.message_history[0] = {"role": "user", "content": documentstr}
+
+    def get_document(self):
+        return self.document
