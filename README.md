@@ -49,11 +49,9 @@ This Fully Automated Screening Interview & Performance Evaluation System offers 
 4. **Activate the Environment:**
    - Activate the newly created environment using the following command:
      ```bash
-     conda activate <your_environment_name> 
+     conda activate interviewsystem
      ```
-   - Replace `<your_environment_name>` with the actual name of your environment (as specified in the `environment.yml` file).
-
-   (Picture here: Screenshot of activating the conda environment)
+   - You should see the following to indicate you've successfully activated the virtual environment
 
 5. **Run the Main Script (or other scripts):**
    - You can now run your main script or other scripts in your project. For example:
