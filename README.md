@@ -52,6 +52,8 @@ This Fully Automated Screening Interview & Performance Evaluation System offers 
      conda activate interviewsystem
      ```
    - You should see the following to indicate you've successfully activated the virtual environment
+     ![image](https://github.com/user-attachments/assets/76da2ff8-7fa6-4a61-b444-c7df69f95658)
+
 
 5. **Run the Main Script (or other scripts):**
    - You can now run your main script or other scripts in your project. For example:
