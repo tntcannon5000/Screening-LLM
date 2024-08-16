@@ -18,8 +18,8 @@ This Fully Automated Screening Interview & Performance Evaluation System offers 
 **Prerequisites:**
 
 * **Miniconda or Anaconda:** You'll need to have either Miniconda (a minimal installer for conda) or Anaconda (a full distribution including conda and many popular packages) installed on your system.
-  * **Download Miniconda:** [Link to Miniconda download page]
-  * **Download Anaconda:** [Link to Anaconda download page]
+  * **Download Miniconda:** [[Miniconda download page]](https://docs.anaconda.com/miniconda/)
+  * **Download Anaconda:** [[Anaconda download page]](https://docs.anaconda.com/anaconda/install/)
 
 * **Conda:** Make sure you can access the conda terminal by either finding it in your start menu (Windows) or calling it from bash/cmd
 
@@ -28,7 +28,7 @@ This Fully Automated Screening Interview & Performance Evaluation System offers 
 1. **Clone or Download the Project:**
    - If you have `git` installed, you can clone the repository:
      ```bash
-     git clone <your_repository_url>
+     git clone https://github.com/tntcannon5000/Screening-LLM/
      ```
    - Otherwise, download the project as a zip file using the download button or from releases and extract it to a suitable location.
 
