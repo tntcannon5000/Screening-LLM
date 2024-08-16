@@ -116,7 +116,7 @@ class PostConversationProcessor:
 
     def run(self):
         chatlog_chat = self.reformat_chatlog()
-        #chatlog_chat = self.process_sentiments(chatlog_chat)
+        chatlog_chat = self.process_sentiments(chatlog_chat)
         evaluation = self.evaluate_candidate(chatlog_chat)
         pprint(evaluation)
         return evaluation
