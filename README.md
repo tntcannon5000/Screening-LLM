@@ -36,6 +36,7 @@ This Fully Automated Screening Interview & Performance Evaluation System offers 
 2. **Navigate to the Project Directory:**
    - Open your terminal or command prompt and use the `cd` command to navigate to the directory where you extracted the project files.
 
+
 3. **Create the Conda Environment:**
    - Run the following command to create the conda environment using the provided `environment.yml` file:
      ```bash
