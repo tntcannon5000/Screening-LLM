@@ -17,7 +17,12 @@ from fpdf import FPDF
 from tkinter import messagebox
 
 class InterviewBot:
+    """
+    Manages an AI-driven interview process, handling speech recognition,
+    text-to-speech, and conversation flow.
+    """
     def __init__(self):
+        """Initialize the InterviewBot with default settings and models."""
         load_dotenv(os.path.join(os.path.dirname(os.getcwd()), ".env"))
 
         # Settings
@@ -39,6 +44,7 @@ class InterviewBot:
         self.settings_updated = Event()
 
     def setup_directories(self):
+        """Create necessary directories for storing interview data."""
         if not os.path.exists(f"data/interviews/{self.unixtime}"):
             os.makedirs(f"data/interviews/{self.unixtime}")
             os.makedirs(f"data/interviews/{self.unixtime}/audio")
@@ -49,83 +55,100 @@ class InterviewBot:
         self.joblib_directory = f"data/interviews/{self.unixtime}/joblib/"
 
     def setup_models(self):
+        """Initialize AI models and prompts for the interview process."""
         #Uncomment these lines if you want the to override the UI settings.
-        # self.job_role = "RAG AI Engineer"
-        # self.candidate_skill = "Entry-Level"
-        # self.role_description = """
-        # Permanent
+        self.job_role = "RAG AI Engineer"
+        self.candidate_skill = "Entry-Level"
+        self.role_description = """
+        Permanent
 
-        # London (Hybrid)
+        London (Hybrid)
 
-        # Salary - £50,000 - £75,000 p/a + benefits
+        Salary - £50,000 - £75,000 p/a + benefits
 
-        # My client are on the cutting edge of digital reinvention, helping clients reimagine how they serve their connected customers and operate enterprises. As an experienced AI Engineer, you'll play a pivotal role in their revolution. You'll leverage deep learning, neuro-linguistic programming (NLP), computer vision, chatbots, and robotics to enhance business outcomes and drive innovation. Join their multidisciplinary team to shape their AI strategy and showcase the potential of AI through early-stage solutions.
+        My client are on the cutting edge of digital reinvention, helping clients reimagine how they serve their connected customers and operate enterprises. As an experienced AI Engineer, you'll play a pivotal role in their revolution. You'll leverage deep learning, neuro-linguistic programming (NLP), computer vision, chatbots, and robotics to enhance business outcomes and drive innovation. Join their multidisciplinary team to shape their AI strategy and showcase the potential of AI through early-stage solutions.
 
-        # Tasks
+        Tasks
 
-        # 1. Enhance Retrieval and Generation:
-        # Create and manage RAG pipelines to improve information retrieval and content generation tasks.
-        # 1. LLMs Optimization:
-        # Understand the nuances between prompting and training large language models (LLMs) to enhance model performance.
-        # 1. LLM Evaluation:
-        # Evaluate different LLMs to find the best fit for specific use cases.
-        # 1. Model Efficiency:
-        # Address speed, performance, and cost-related issues in model implementation.
-        # 1. Collaboration and Innovation:
-        # Work closely with cross-functional teams to integrate AI solutions into production environments.
-        # Stay informed about the latest advancements in AI and machine learning to continuously enhance our solutions.
-        # Requirements
+        1. Enhance Retrieval and Generation:
+        Create and manage RAG pipelines to improve information retrieval and content generation tasks.
+        1. LLMs Optimization:
+        Understand the nuances between prompting and training large language models (LLMs) to enhance model performance.
+        1. LLM Evaluation:
+        Evaluate different LLMs to find the best fit for specific use cases.
+        1. Model Efficiency:
+        Address speed, performance, and cost-related issues in model implementation.
+        1. Collaboration and Innovation:
+        Work closely with cross-functional teams to integrate AI solutions into production environments.
+        Stay informed about the latest advancements in AI and machine learning to continuously enhance our solutions.
+        Requirements
 
-        # 4+ years of hands-on Python development experience, especially with machine learning frameworks (e.g., TensorFlow, PyTorch).
-        # Proven experience setting up and optimizing retrieval-augmented generation (RAG) pipelines.
-        # Strong understanding of large language models (LLMs) and the differences between prompting and training.
-        # Production-level experience with AWS services.
-        # Hands-on experience testing and comparing different LLMs (OpenAI, Llama, Claude, etc.).
-        # Familiarity with model speed and cost optimization challenges.
-        # Excellent problem-solving skills and attention to detail.
-        # Strong communication and teamwork abilities.
-        # Benefits
+        4+ years of hands-on Python development experience, especially with machine learning frameworks (e.g., TensorFlow, PyTorch).
+        Proven experience setting up and optimizing retrieval-augmented generation (RAG) pipelines.
+        Strong understanding of large language models (LLMs) and the differences between prompting and training.
+        Production-level experience with AWS services.
+        Hands-on experience testing and comparing different LLMs (OpenAI, Llama, Claude, etc.).
+        Familiarity with model speed and cost optimization challenges.
+        Excellent problem-solving skills and attention to detail.
+        Strong communication and teamwork abilities.
+        Benefits
 
-        # Endless Learning and Growth: Explore boundless opportunities for personal and professional development in our dynamic, AI-driven startup.
-        # Inclusive and Supportive Environment: Join a collaborative culture that prioritizes transparency, trust, and open dialogue among team members.
-        # Generous Benefits: Enjoy comprehensive perks, including unlimited annual leave, birthday leave, and exciting team trips.
-        # Impactful Work: Contribute to the financial industry by working with cutting-edge AI technologies that make a difference.
-        # Please apply for this exciting role ASAP!!
-        # """
+        Endless Learning and Growth: Explore boundless opportunities for personal and professional development in our dynamic, AI-driven startup.
+        Inclusive and Supportive Environment: Join a collaborative culture that prioritizes transparency, trust, and open dialogue among team members.
+        Generous Benefits: Enjoy comprehensive perks, including unlimited annual leave, birthday leave, and exciting team trips.
+        Impactful Work: Contribute to the financial industry by working with cutting-edge AI technologies that make a difference.
+        Please apply for this exciting role ASAP!!
+        """
 
-        # self.system_prompt = f"""
-        # You are a skilled interviewer who is conducting an initial phone screening interview for a candidate for a {self.candidate_skill} {self.job_role} role to see if the candidate is at minimum somewhat qualified for the role and worth the time to be fully interviewed. The role and company description is copypasted from the job posting as follows: {self.role_description}. Parse through it to extract any information you feel is relevant.
-        # Your job is to begin a friendly discussion with the candidate, and ask questions relevant to the {self.job_role} role, which may or may not be based on the interviewee's CV, which you have access to. Be sure to stick to this topic even if the candidate tries to steer the conversation elsewhere. If the candidate has other experience on his CV, you can ask about it, but keep it within the context of the {self.job_role} role.
-        # After the candidate responds to each of your questions, you should not summarise or provide feedback on their responses. THIS POINT IS KEY! You should not summarise or provide feedback on their responses. You must keep your responses short and concise without reiterating what is good about the candidate's response or experience when they reply.
-        # You can ask follow-up questions if you wish.
-        # Once you have asked sufficient questions such that you deem the candidate is or isn't fitting for the role, end the interview by thanking the candidate for their time and informing them that they will receive word soon on the outcome of the screening interview. If the candidate does not seem fititng for the role, or if something feels off such as the candidate being unconfident or very very vague feel free to end the interview early. There is no need to inform them of your opinion of their performance, as this will be evaluated later.
-        # The candidate will begin the interview by greeting you. You are to greet them back, and begin the interview.
-        # For this specific run, keep the interview to a maximum of 4 questions. Please end the interview with the phrase 'Thank you for your time'.
-        # """
-
-        chat_model_name = "claude-3-5-sonnet-20240620"
-        cv_path = "data/cvs/cv-deb.pdf"
-        self.chat_model = ClaudeChatCV(chat_model_name, self.system_prompt, cv_path)
-        self.stt_model = whisper.load_model("medium", device="cuda")
-        self.tts_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        self.system_prompt = f"""
+        You are a skilled interviewer who is conducting an initial phone screening interview for a candidate for a {self.candidate_skill} {self.job_role} role to see if the candidate is at minimum somewhat qualified for the role and worth the time to be fully interviewed. The role and company description is copypasted from the job posting as follows: {self.role_description}. Parse through it to extract any information you feel is relevant.
+        Your job is to begin a friendly discussion with the candidate, and ask questions relevant to the {self.job_role} role, which may or may not be based on the interviewee's CV, which you have access to. Be sure to stick to this topic even if the candidate tries to steer the conversation elsewhere. If the candidate has other experience on his CV, you can ask about it, but keep it within the context of the {self.job_role} role.
+        After the candidate responds to each of your questions, you should not summarise or provide feedback on their responses. THIS POINT IS KEY! You should not summarise or provide feedback on their responses. You must keep your responses short and concise without reiterating what is good about the candidate's response or experience when they reply.
+        You can ask follow-up questions if you wish.
+        Once you have asked sufficient questions such that you deem the candidate is or isn't fitting for the role, end the interview by thanking the candidate for their time and informing them that they will receive word soon on the outcome of the screening interview. If the candidate does not seem fititng for the role, or if something feels off such as the candidate being unconfident or very very vague feel free to end the interview early. There is no need to inform them of your opinion of their performance, as this will be evaluated later.
+        The candidate will begin the interview by greeting you. You are to greet them back, and begin the interview.
+        For this specific run, keep the interview to a maximum of 4 questions. Please end the interview with the phrase 'Thank you for your time'.
+        """
+        try:
+            chat_model_name = "claude-3-5-sonnet-20240620"
+            cv_path = "data/cvs/cv-deb.pdf"
+            self.chat_model = ClaudeChatCV(chat_model_name, self.system_prompt, cv_path)
+            self.stt_model = whisper.load_model("medium", device="cuda")
+            self.tts_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        except Exception as e:
+            print(f"Error setting up models: {str(e)}")
+            raise
 
     def stream_tts(self, input_string):
+        """Stream text-to-speech audio output.
+        
+        Args:
+            input_string (str): The text to be converted to speech."""
         def _stream_tts():
-            p = pyaudio.PyAudio()
-            stream = p.open(format=8,
-                            channels=1,
-                            rate=round(24_005 * self.SPEAKING_SPEED),
-                            output=True)
-            with self.tts_client.audio.speech.with_streaming_response.create(
-                model="tts-1",
-                voice="nova",
-                input=input_string,
-                response_format="pcm"
-            ) as response:
-                for chunk in response.iter_bytes(1024):
-                    stream.write(chunk)
-                    
-            thread_done.set()
+            try:
+                p = pyaudio.PyAudio()
+                stream = p.open(format=8,
+                                channels=1,
+                                rate=round(24_005 * self.SPEAKING_SPEED),
+                                output=True)
+                with self.tts_client.audio.speech.with_streaming_response.create(
+                    model="tts-1",
+                    voice="nova",
+                    input=input_string,
+                    response_format="pcm"
+                ) as response:
+                    for chunk in response.iter_bytes(1024):
+                        stream.write(chunk)
+            except Exception as e:
+                print(f"Error in TTS streaming: {str(e)}")
+                raise
+            finally:
+                if 'stream' in locals():
+                    stream.stop_stream()
+                    stream.close()
+                if 'p' in locals():
+                    p.terminate()
+                thread_done.set()
 
         thread_done = threading.Event()
         thread = threading.Thread(target=_stream_tts)
@@ -133,31 +156,35 @@ class InterviewBot:
         thread_done.wait()
 
     def record_speech(self):
+        """Record audio input from the user.
+        
+        Returns:
+            str: The filename of the recorded audio."""
         print("Recording... Speak now!")
         audio_data = np.array([], dtype=np.int16)
+        try:
+            with sd.InputStream(samplerate=self.FS, channels=1, dtype='int16') as stream:
+                while True:
+                    chunk, overflowed = stream.read(self.CHUNK_SIZE)
+                    if overflowed:
+                        print("Warning: Input overflowed!")
+                    audio_data = np.append(audio_data, chunk)
 
-        with sd.InputStream(samplerate=self.FS, channels=1, dtype='int16') as stream:
-            while True:
-                chunk, overflowed = stream.read(self.CHUNK_SIZE)
-                if overflowed:
-                    print("Warning: Input overflowed!")
-                audio_data = np.append(audio_data, chunk)
+                    if self.pause_loop:
+                        break
+            
+            self.human_audio_n += 1
+            wavstring = f"/audio_{self.human_audio_n}_{self.unixtime}.wav"
+            wav.write(self.audio_directory + wavstring, self.FS, audio_data)
 
-                if self.pause_loop:
-                    break
-        
-        self.human_audio_n += 1
-        wavstring = f"/audio_{self.human_audio_n}_{self.unixtime}.wav"
-        wav.write(self.audio_directory + wavstring, self.FS, audio_data)
-
-        return wavstring
+            return wavstring
+        except Exception as e:
+            print(f"Error recording speec: {str(e)}")
+            return None
     
-
-# --- Function to create the first UI (Job Details and Settings) ---
     def create_ui_1(self):
-
+        """Create the first UI for job details and interview settings."""
         def update_settings():
-
             # Get values from input fields
             self.FS = int(fs_entry.get())
             self.CHUNK_SIZE = int(chunk_size_entry.get())
@@ -248,6 +275,7 @@ class InterviewBot:
     # Add the rest of your program logic here
 
     def create_ui_2(self):
+        """Create the second UI for controlling the interview process."""
         def toggle_pause():
             self.pause_button.config(text="Stop" if self.pause_loop else "Speak",
                                 bg="red" if self.pause_loop else "green")
@@ -284,6 +312,7 @@ class InterviewBot:
 
     
     def run_interview(self):
+        """Execute the main interview loop."""
         ui_thread = Thread(target=self.create_ui_1)
         ui_thread.start()
         self.settings_updated.wait()
@@ -292,36 +321,40 @@ class InterviewBot:
         self.pause_loop = True
         while True:
             if not self.pause_loop:
-                time.sleep(0.1)
-                print("Recording speech...")
-                wav_file = self.record_speech()
+                try:
+                    time.sleep(0.1)
+                    print("Recording speech...")
+                    wav_file = self.record_speech()
 
-                if self.end_loop:
-                    break
+                    if self.end_loop:
+                        break
 
-                print("Converting speech to text...")
-                text = self.stt_model.transcribe(self.audio_directory + wav_file, language="en")
-                print("You said: ", text.get("text"))
+                    print("Converting speech to text...")
+                    text = self.stt_model.transcribe(self.audio_directory + wav_file, language="en")
+                    print("You said: ", text.get("text"))
 
-                if self.end_loop:
-                    break
-                self.root.after(0, lambda: self.pause_button.config(state="disabled"))
-                print("Chatting...")
-                response = self.chat_model.chat_with_history_doc(text.get("text"))
+                    if self.end_loop:
+                        break
+                    self.root.after(0, lambda: self.pause_button.config(state="disabled"))
+                    print("Chatting...")
+                    response = self.chat_model.chat_with_history_doc(text.get("text"))
 
-                print("Chatbot: ", response)
+                    print("Chatbot: ", response)
 
-                print("Converting text to speech...")
-                
-                self.stream_tts(response)
-                self.root.after(0, lambda: self.pause_button.config(state="normal"))
-                # Check if the response contains the exit phrase
-                if "Thank you for your time" in response:
-                    print("Interview ending...")
-                    time.sleep(5)
-                    self.end_loop = True
-                    self.root.after(0, self.root.quit)
-                    break  # Exit the interview loop
+                    print("Converting text to speech...")
+                    
+                    self.stream_tts(response)
+                    self.root.after(0, lambda: self.pause_button.config(state="normal"))
+                    # Check if the response contains the exit phrase
+                    if "Thank you for your time" in response:
+                        print("Interview ending...")
+                        time.sleep(5)
+                        self.end_loop = True
+                        self.root.after(0, self.root.quit)
+                        break  # Exit the interview loop
+                except Exception as e:
+                    print(f"Error in interview loop : {str(e)}")
+                    raise
 
             else:
                 time.sleep(0.1)
@@ -331,29 +364,40 @@ class InterviewBot:
         ui_thread.join()
 
     def save_conversation(self):
-        conversation = self.chat_model.get_message_history()
-        dump(conversation, self.joblib_directory + "conversation.joblib")
-        print(conversation)
+        """Save the interview conversation to a file and generate a PDF report."""
+        try:
+            conversation = self.chat_model.get_message_history()
+            dump(conversation, self.joblib_directory + "conversation.joblib")
+            print(conversation)
+        except Exception as e:
+            print(f"Error saving joblib file: {str(e)}")
+            raise
+        try:    
+            pdf = FPDF()
+            pdf.add_page()
+            pdf.set_margins(left=10, top=20, right=10)
+            pdf.set_font("Helvetica", size=12)
+            usable_width = pdf.w - pdf.l_margin - pdf.r_margin - 0
 
-        pdf = FPDF()
-        pdf.add_page()
-        pdf.set_margins(left=10, top=20, right=10)
-        pdf.set_font("Helvetica", size=12)
-        usable_width = pdf.w - pdf.l_margin - pdf.r_margin - 0
+            for turn in conversation[2:]:
+                if turn['role'] and turn['content']:
+                    pdf.set_font("Helvetica", style="B", size=14)
+                    pdf.cell(0, 10, txt=f"{turn['role'].capitalize()}:", ln=True)
+                    pdf.set_font("Helvetica", size=12)
+                    pdf.x = pdf.l_margin
+                    pdf.multi_cell(usable_width, 6, txt=turn['content'])
+                    pdf.ln(3)
 
-        for turn in conversation[2:]:
-            if turn['role'] and turn['content']:
-                pdf.set_font("Helvetica", style="B", size=14)
-                pdf.cell(0, 10, txt=f"{turn['role'].capitalize()}:", ln=True)
-                pdf.set_font("Helvetica", size=12)
-                pdf.x = pdf.l_margin
-                pdf.multi_cell(usable_width, 6, txt=turn['content'])
-                pdf.ln(3)
-
-        pdf.output(self.pdf_directory + "conversation.pdf")
+            pdf.output(self.pdf_directory + "conversation.pdf")
+        except Exception as e:
+            print(f"Error saving conversation: {str(e)}")
+            
 
     def main(self):
+        """Main entry point for running the interview process.
         
+        Returns:
+            str: The Unix timestamp of the interview session."""
         self.run_interview()
         self.save_conversation()
         return self.unixtime
