@@ -23,6 +23,8 @@ This Fully Automated Screening Interview & Performance Evaluation System offers 
   * **Download Anaconda:** [[Anaconda download page]](https://docs.anaconda.com/anaconda/install/)
 
 * **Conda:** Make sure you can access the conda terminal by either finding it in your start menu (Windows) or calling it from bash/cmd
+  ![image](https://github.com/user-attachments/assets/314eaa20-3fa1-4a54-bc70-82721beaaeba)
+
 
 **Steps:**
 
