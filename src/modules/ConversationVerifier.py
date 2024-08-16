@@ -8,6 +8,7 @@ from langchain.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from operator import itemgetter
 from src.utils.webscraper import WebScraper
+from langchain_core.runnables import RunnablePassthrough
 
 
 def process_qa_pair(chat_log):
@@ -69,9 +70,8 @@ def process_qa_pair(chat_log):
             chunk_size=300, 
             chunk_overlap=50
         )
+        documents = []
         try:
-            if not documents:
-                print("No documents retrieved from webscrapping \n")
             splits = text_splitter.split_documents(documents)
             if not splits:
                 print("Warning: No documents were split. The retriever will be empty.")
@@ -113,18 +113,29 @@ def process_qa_pair(chat_log):
 
         def format_qa_pair(question, answer, feedback):
             return f"Question: {question}\nAnswer: {answer}\nFeedback: {feedback}\n\n".strip()
-
         llm = ChatOpenAI(model_name="gpt-4o", temperature=0)
         q_a_pairs = ""
-        rag_chain = (
-            {"context": itemgetter("answer") | retriever, 
-            "answer": itemgetter("answer"),
-            "question": itemgetter("question"),
-            "q_a_pairs": itemgetter("q_a_pairs")} 
-            | accuracy_prompt
-            | llm
-            | StrOutputParser()
-        )
+        if not documents:
+                print("No documents retrieved from webscrapping \n")
+                rag_chain = (
+                {"context": RunnablePassthrough(), 
+                "answer": itemgetter("answer"),
+                "question": itemgetter("question"),
+                "q_a_pairs": itemgetter("q_a_pairs")} 
+                | accuracy_prompt
+                | llm
+                | StrOutputParser()
+            )
+        else:
+            rag_chain = (
+                {"context": itemgetter("answer") | retriever, 
+                "answer": itemgetter("answer"),
+                "question": itemgetter("question"),
+                "q_a_pairs": itemgetter("q_a_pairs")} 
+                | accuracy_prompt
+                | llm
+                | StrOutputParser()
+            )
 
         for chat in chat_log:
             question = chat['interviewer']

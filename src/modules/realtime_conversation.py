@@ -61,44 +61,44 @@ class InterviewBot:
         ui_thread.start()
         self.settings_updated.wait()
         #Uncomment these lines if you want the to override the UI settings.
-        # self.job_role = "Morning Receptionist (Part Time)"
-        # self.candidate_skill = "Entry-Level"
-        # self.role_description = """
-        # A rare and exciting opportunity has arisen to join a busy and friendly research institute as a morning receptionist with some administrative duties.
+        self.job_role = "Morning Receptionist (Part Time)"
+        self.candidate_skill = "Entry-Level"
+        self.role_description = """
+        A rare and exciting opportunity has arisen to join a busy and friendly research institute as a morning receptionist with some administrative duties.
 
-        # We are seeking a flexible and enthusiastic team player, who is willing to learn and develop as part of a wider group of friendly and highly skilled professional services staff. If you think that describes you then this is an amazing opportunity to gain experience in a dynamic and skilled environment, so apply today or contact hr@gurdon.cam.ac.uk for an informal discussion about the role.
+        We are seeking a flexible and enthusiastic team player, who is willing to learn and develop as part of a wider group of friendly and highly skilled professional services staff. If you think that describes you then this is an amazing opportunity to gain experience in a dynamic and skilled environment, so apply today or contact hr@gurdon.cam.ac.uk for an informal discussion about the role.
 
-        # As the first point of contact for the Institute, you will need excellent communication and interpersonal skills and be professional and friendly.
+        As the first point of contact for the Institute, you will need excellent communication and interpersonal skills and be professional and friendly.
 
-        # Essential Skills For This Post Are
+        Essential Skills For This Post Are
 
-        # Excellent customer service skills
-        # Willingness to be flexible and versatile
-        # Highly organised
-        # Capacity to remain patient and tactful at all times and maintain confidentiality
-        # Ability to multi-task, work under pressure and learn new skills quickly
-        # Excellent communication skills (both written and verbal)
-        # Ability to communicate in a friendly and professional manner with everyone
-        # Computing skills
+        Excellent customer service skills
+        Willingness to be flexible and versatile
+        Highly organised
+        Capacity to remain patient and tactful at all times and maintain confidentiality
+        Ability to multi-task, work under pressure and learn new skills quickly
+        Excellent communication skills (both written and verbal)
+        Ability to communicate in a friendly and professional manner with everyone
+        Computing skills
 
-        # The successful applicant will open reception at 8:30. Reception closes at 17:00, Monday to Friday. The post will cover the morning hours from 8:30 to 12:45 (21.25 hours per week). Some flexibility in covering some of the hours of the afternoon post (12:45 to 17:00) during holiday periods would be desirable.
+        The successful applicant will open reception at 8:30. Reception closes at 17:00, Monday to Friday. The post will cover the morning hours from 8:30 to 12:45 (21.25 hours per week). Some flexibility in covering some of the hours of the afternoon post (12:45 to 17:00) during holiday periods would be desirable.
 
-        # The position is permanent and available immediately.
+        The position is permanent and available immediately.
 
-        # If you have any questions about this vacancy or the application process, please contact the HR team (hr@gurdon.cam.ac.uk).
+        If you have any questions about this vacancy or the application process, please contact the HR team (hr@gurdon.cam.ac.uk).
 
-        # Click the 'Apply' button below to register an account with our recruitment system (if you have not already) and apply online.
+        Click the 'Apply' button below to register an account with our recruitment system (if you have not already) and apply online.
 
-        # Please quote reference PR42849 on your application and in any correspondence about this vacancy.
+        Please quote reference PR42849 on your application and in any correspondence about this vacancy.
 
-        # The University actively supports equality, diversity and inclusion and encourages applications from all sections of society.
+        The University actively supports equality, diversity and inclusion and encourages applications from all sections of society.
 
-        # The University has a responsibility to ensure that all employees are eligible to live and work in the UK.
+        The University has a responsibility to ensure that all employees are eligible to live and work in the UK.
 
-        # Further information
+        Further information
 
-        # Further Particulars
-        # """
+        Further Particulars
+        """
 
         self.system_prompt = f"""
         You are a skilled interviewer who is conducting an initial phone screening interview for a candidate for a {self.candidate_skill} {self.job_role} role to see if the candidate is at minimum somewhat qualified for the role and worth the time to be fully interviewed. The role and company description is copypasted from the job posting as follows: {self.role_description}. Parse through it to extract any information you feel is relevant.
