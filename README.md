@@ -31,7 +31,7 @@ This Fully Automated Screening Interview & Performance Evaluation System offers 
      ```bash
      git clone https://github.com/tntcannon5000/Screening-LLM/
      ```
-   - Otherwise, download the project as a zip file using the download button or from releases and extract it to a suitable location.
+   - Otherwise, download the project as a zip file using the download button, or from releases and extract it to a suitable location.
 
 2. **Navigate to the Project Directory:**
    - Open your terminal or command prompt and use the `cd` command to navigate to the directory where you extracted the project files.
