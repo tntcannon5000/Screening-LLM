@@ -1,9 +1,11 @@
-import src.modules.realtime_conversation as realtime_conversation
+from src.modules.realtime_conversation import InterviewBot
 from src.modules.post_conversation import PostConversationProcessor
 
 def main():
-    #timestamp = realtime_conversation.main()
-    postcon = PostConversationProcessor(1723670854)
+    
+    bot = InterviewBot()
+    timestamp = bot.main()
+    postcon = PostConversationProcessor(timestamp)
     result = postcon.run()
 
     print(result)

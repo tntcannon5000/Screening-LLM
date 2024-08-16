@@ -10,10 +10,11 @@ from openai import OpenAI
 import pyaudio
 import threading
 import tkinter as tk
-from threading import Thread
+from threading import Thread,Event
 import time
 import re
 from fpdf import FPDF
+from tkinter import messagebox
 
 class InterviewBot:
     def __init__(self):
@@ -25,6 +26,7 @@ class InterviewBot:
         self.SILENCE_DURATION = 1.5
         self.CHUNK_SIZE = 1024
         self.SPEAKING_SPEED = 1.1
+        self.PASS_PERCENTAGE = 50
 
         # Globals
         self.pause_loop = True
@@ -34,6 +36,7 @@ class InterviewBot:
 
         self.setup_directories()
         self.setup_models()
+        self.settings_updated = Event()
 
     def setup_directories(self):
         if not os.path.exists(f"data/interviews/{self.unixtime}"):
@@ -96,7 +99,7 @@ class InterviewBot:
         You can ask follow-up questions if you wish.
         Once you have asked sufficient questions such that you deem the candidate is or isn't fitting for the role, end the interview by thanking the candidate for their time and informing them that they will receive word soon on the outcome of the screening interview. If the candidate does not seem fititng for the role, or if something feels off such as the candidate being unconfident or very very vague feel free to end the interview early. There is no need to inform them of your opinion of their performance, as this will be evaluated later.
         The candidate will begin the interview by greeting you. You are to greet them back, and begin the interview.
-        For this specific run, keep the interview to a maximum of 4 questions.
+        For this specific run, keep the interview to a maximum of 4 questions. When you are done with the interview please use the phrase : Thank you for your time.
         """
 
         chat_model_name = "claude-3-5-sonnet-20240620"
@@ -147,12 +150,111 @@ class InterviewBot:
         wav.write(self.audio_directory + wavstring, self.FS, audio_data)
 
         return wavstring
+    
 
-    def create_ui(self):
+# --- Function to create the first UI (Job Details and Settings) ---
+    def create_ui_1(self):
+
+        def update_settings():
+
+            # Get values from input fields
+            self.FS = int(fs_entry.get())
+            self.CHUNK_SIZE = int(chunk_size_entry.get())
+            self.SPEAKING_SPEED = float(speaking_speed_entry.get())
+            self.PASS_PERCENTAGE = float(pass_percentage_entry.get())
+            self.job_role = job_role_entry.get()
+            self.candidate_skill = candidate_skill_entry.get()
+            self.role_description = role_description_text.get("1.0", tk.END).strip()
+
+            # Basic input validation
+            if not all([self.job_role, self.candidate_skill, self.role_description]):
+                messagebox.showerror("Error", "Please fill in all job details.")
+                return
+
+            root.destroy()  # Close the first UI window
+            self.settings_updated.set()  # Signal that settings have been updated
+
+        root = tk.Tk()
+        root.title("Job Details and Settings")
+        root.geometry("900x400") 
+        root.configure(bg='#f0f0f0')
+
+        # Job Details Tile
+        job_frame = tk.LabelFrame(root, text="Job Details", bg='#e0e0e0', padx=10, pady=10)
+        job_frame.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
+
+        tk.Label(job_frame, text="Job Role:", bg='#e0e0e0').grid(row=0, column=0, sticky='e', pady=5)
+        job_role_entry = tk.Entry(job_frame, width=30)
+        job_role_entry.grid(row=0, column=1, sticky='w', pady=5)
+
+        tk.Label(job_frame, text="Candidate Skill:", bg='#e0e0e0').grid(row=1, column=0, sticky='e', pady=5)
+        candidate_skill_entry = tk.Entry(job_frame, width=30)
+        candidate_skill_entry.grid(row=1, column=1, sticky='w', pady=5)
+
+        tk.Label(job_frame, text="Role Description:", bg='#e0e0e0').grid(row=2, column=0, sticky='ne', pady=5)
+        role_description_text = tk.Text(job_frame, width=60, height=10)
+        role_description_text.grid(row=2, column=1, sticky='w', pady=5)
+
+        # Settings Tile
+        settings_frame = tk.LabelFrame(root, text="Interview Settings", bg='#e0e0e0', padx=10, pady=10)
+        settings_frame.grid(row=0, column=1, padx=10, pady=10, sticky="nsew")
+
+        settings = [
+            ("Pass %", self.PASS_PERCENTAGE),
+            ("Sampling Frequency", self.FS),
+            ("Chunk Size", self.CHUNK_SIZE),
+            ("Speaking Speed", self.SPEAKING_SPEED)
+        ]
+
+        entries = []
+        for i, (text, value) in enumerate(settings):
+            tk.Label(settings_frame, text=text, bg='#e0e0e0').grid(row=i, column=0, sticky='e', pady=5)
+            entry = tk.Entry(settings_frame, width=10)
+            entry.insert(0, str(value))
+            entry.grid(row=i, column=1, sticky='w', pady=5)
+            entries.append(entry)
+
+        pass_percentage_entry, fs_entry, chunk_size_entry, speaking_speed_entry = entries
+
+        #update_button = tk.Button(settings_frame, text="Update Settings", command=update_settings, 
+                               # bg="blue", fg="white", font=("Arial", 10))
+        #update_button.grid(row=len(settings), column=0, columnspan=2, pady=10)
+
+        # Configure grid weights
+        root.grid_columnconfigure(0, weight=1)
+        root.grid_columnconfigure(1, weight=1)
+        root.grid_rowconfigure(0, weight=1)
+        root.grid_rowconfigure(1, weight=1)  # Add this line for the new row
+
+        # Create a new frame for the Save button
+        button_frame = tk.Frame(root, bg='#f0f0f0')
+        button_frame.grid(row=1, column=0, columnspan=2, pady=10)
+
+        # Create the Save button in the new frame
+        save_button = tk.Button(button_frame, text="Save", command=update_settings, 
+                                bg="blue", fg="white", font=("Arial", 12), width=10)
+        save_button.pack()
+
+        root.protocol("WM_DELETE_WINDOW", lambda: self.settings_updated.set())  # Handle window close
+        root.mainloop()
+
+        # Continue with the rest of your code here
+        print("Settings updated, continuing with execution...")
+        print(f"Job Role: {self.job_role}")
+        print(f"Candidate Skill: {self.candidate_skill}")
+        print(f"Role Description: {self.role_description}")
+        print(f"FS: {self.FS}")
+        print(f"CHUNK_SIZE: {self.CHUNK_SIZE}")
+        print(f"SPEAKING_SPEED: {self.SPEAKING_SPEED}")
+        print(f"PASS_PERCENTAGE: {self.PASS_PERCENTAGE}")
+
+    # Add the rest of your program logic here
+
+    def create_ui_2(self):
         def toggle_pause():
+            self.pause_button.config(text="Stop" if self.pause_loop else "Speak",
+                                bg="red" if self.pause_loop else "green")
             self.pause_loop = not self.pause_loop
-            pause_button.config(text="Stop" if not self.pause_loop else "Speak now",
-                                bg="red" if not self.pause_loop else "green")
 
         def end_program():
             self.end_loop = True
@@ -167,10 +269,10 @@ class InterviewBot:
         frame = tk.Frame(root, bg='#f0f0f0')
         frame.pack(expand=True, fill='both', padx=20, pady=20)
 
-        pause_button = tk.Button(frame, text="Stop", command=toggle_pause, 
-                                bg="red", fg="white", font=("Arial", 12), 
+        self.pause_button = tk.Button(frame, text="Speak", command=toggle_pause, 
+                                bg="green", fg="white", font=("Arial", 12), 
                                 width=10, height=2)
-        pause_button.pack(pady=10)
+        self.pause_button.pack(pady=10)
 
         end_button = tk.Button(frame, text="End Program", command=end_program, 
                             bg="gray", fg="white", font=("Arial", 12), 
@@ -178,12 +280,19 @@ class InterviewBot:
         end_button.pack(pady=10)
 
         root.protocol("WM_DELETE_WINDOW", end_program)
-        root.mainloop()
+        
+        self.root = root
+        
+        self.root.mainloop()
 
+    
     def run_interview(self):
-        ui_thread = Thread(target=self.create_ui)
+        ui_thread = Thread(target=self.create_ui_1)
         ui_thread.start()
-
+        self.settings_updated.wait()
+        ui_thread = Thread(target=self.create_ui_2)
+        ui_thread.start()
+        self.pause_loop = True
         while True:
             if not self.pause_loop:
                 time.sleep(0.1)
@@ -199,19 +308,30 @@ class InterviewBot:
 
                 if self.end_loop:
                     break
-
+                self.root.after(0, lambda: self.pause_button.config(state="disabled"))
                 print("Chatting...")
                 response = self.chat_model.chat_with_history_doc(text.get("text"))
 
                 print("Chatbot: ", response)
 
                 print("Converting text to speech...")
+                
                 self.stream_tts(response)
+                self.root.after(0, lambda: self.pause_button.config(state="normal"))
+                # Check if the response contains the exit phrase
+                if "Thank you for your time" in response:
+                    print("Interview ending...")
+                    time.sleep(5)
+                    self.end_loop = True
+                    self.root.after(0, self.root.quit)
+                    break  # Exit the interview loop
 
             else:
                 time.sleep(0.1)
                 if self.end_loop:
                     break
+        
+        ui_thread.join()
 
     def save_conversation(self):
         conversation = self.chat_model.get_message_history()
@@ -235,11 +355,8 @@ class InterviewBot:
 
         pdf.output(self.pdf_directory + "conversation.pdf")
 
-def main():
-    bot = InterviewBot()
-    bot.run_interview()
-    bot.save_conversation()
-    return bot.unixtime
-
-if __name__ == "__main__":
-    main()
+    def main(self):
+        
+        self.run_interview()
+        self.save_conversation()
+        return self.unixtime
