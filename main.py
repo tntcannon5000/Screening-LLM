@@ -9,6 +9,10 @@ def main():
     result = postcon.run()
 
     print(result)
+
+    input("Press enter to exit")
+
+    
 # Run the main.py file
 if __name__ == '__main__':
     main()
