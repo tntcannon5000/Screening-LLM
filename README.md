@@ -13,23 +13,53 @@ This Fully Automated Screening Interview & Performance Evaluation System offers 
 * **Difficulty-Based Pass/Fail Recommendation:**  The system goes beyond a simple pass/fail decision by offering a nuanced recommendation based on the difficulty level of the interview and the candidate's performance. This allows for a more accurate and insightful assessment of candidate suitability.
 
 
-## Installation/Setup
+## Installation
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+**Prerequisites:**
 
-**Step 1:**
+* **Miniconda or Anaconda:** You'll need to have either Miniconda (a minimal installer for conda) or Anaconda (a full distribution including conda and many popular packages) installed on your system.
+  * **Download Miniconda:** [Link to Miniconda download page]
+  * **Download Anaconda:** [Link to Anaconda download page]
 
-![Image 1](path/to/image1)
+* **Conda:** Make sure you can access the conda terminal by either finding it in your start menu (Windows) or calling it from bash/cmd
 
-**Step 2:**
+**Steps:**
 
-![Image 2](path/to/image2)
+1. **Clone or Download the Project:**
+   - If you have `git` installed, you can clone the repository:
+     ```bash
+     git clone <your_repository_url>
+     ```
+   - Otherwise, download the project as a zip file using the download button or from releases and extract it to a suitable location.
 
-**Step 3:**
+2. **Navigate to the Project Directory:**
+   - Open your terminal or command prompt and use the `cd` command to navigate to the directory where you extracted the project files.
 
-![Image 3](path/to/image3)
+3. **Create the Conda Environment:**
+   - Run the following command to create the conda environment using the provided `environment.yml` file:
+     ```bash
+     conda env create -f environment.yml
+     ```
+   - This will install all the necessary packages and dependencies for the project.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+   (Picture here: Screenshot of running the `conda env create` command)
+
+4. **Activate the Environment:**
+   - Activate the newly created environment using the following command:
+     ```bash
+     conda activate <your_environment_name> 
+     ```
+   - Replace `<your_environment_name>` with the actual name of your environment (as specified in the `environment.yml` file).
+
+   (Picture here: Screenshot of activating the conda environment)
+
+5. **Run the Main Script (or other scripts):**
+   - You can now run your main script or other scripts in your project. For example:
+     ```bash
+     python main.py  # Replace 'main.py' with the actual name of your script
+     ```
+
+   (Picture here: Screenshot of running the main script and expected output)
 
 
 
