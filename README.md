@@ -42,9 +42,9 @@ This Fully Automated Screening Interview & Performance Evaluation System offers 
      ```bash
      conda env create -f environment.yml
      ```
-   - This will install all the necessary packages and dependencies for the project.
+   - This will install all the necessary packages and dependencies for the project
+     ![image](https://github.com/user-attachments/assets/97d2f836-9bf6-40e3-9445-65bb007b1ce0)
 
-   (Picture here: Screenshot of running the `conda env create` command)
 
 4. **Activate the Environment:**
    - Activate the newly created environment using the following command:
