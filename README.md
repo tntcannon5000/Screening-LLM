@@ -2,7 +2,7 @@
 
 ## Key Features
 
-This Fully Automated Screening Interview & Performance Evaluation System offers several unique and powerful features:
+This Fully Automated Screening Interview & Performance Evaluation System offers several features:
 
 * **Speech-to-Speech Interaction:**  Engage candidates in a natural and conversational interview experience through seamless speech-to-speech interaction powered by cutting-edge Large Language Models (LLMs).
 
