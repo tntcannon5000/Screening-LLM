@@ -4,7 +4,7 @@ from joblib import load
 from pprint import pprint
 from ..utils.anthropicwrapper import ClaudeChat, ClaudeChatAssess
 from ..utils.humewrapper import HumeSentimentAnalyzer
-from ..modules import ConversationVerifier
+from ..modules import conversationVerifier
 import time
 import traceback
 
@@ -138,7 +138,7 @@ class PostConversationProcessor:
         Returns:
             str: Evaluation result.
         """
-        ConversationVerifier.process_qa_pair(chatlog_chat)
+        conversationVerifier.process_qa_pair(chatlog_chat)
         evaluation = self.candidate_evaluator.chat(str(chatlog_chat))
         return evaluation
 

@@ -67,6 +67,7 @@ class HumeSentimentAnalyzer:
         Returns:
             dict: Processed analysis result containing emotions, sentiments, and toxicity scores.
         """
+        print(predictions)
         pred = predictions[0]['results']['predictions'][0]['models']['language']['grouped_predictions'][0]['predictions'][0]
         
         result = {
@@ -113,5 +114,5 @@ if __name__ == "__main__":
     # Load the .env file
     load_dotenv(dotenv_path)
     analyzer = HumeSentimentAnalyzer(os.getenv("HUME_API_KEY"))
-    result = analyzer.analyze_audio("D:\Hidden Desktop\OneDrive\Cross Device\Work\Project\\Code\\Screening-LLM\\data\\interviews\\1723743767\\audio\\audio_2_1723743767.wav")
+    result = analyzer.analyze_audio("D:/Kent/University Of Kent UK/Projects/Disso/Screening-LLM/data/interviews/1723836354/audio/audio_2_1723836354.wav")
     analyzer.print_analysis(result)
