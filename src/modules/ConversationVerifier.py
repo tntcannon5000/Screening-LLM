@@ -113,7 +113,7 @@ def process_qa_pair(chat_log):
 
         def format_qa_pair(question, answer, feedback):
             return f"Question: {question}\nAnswer: {answer}\nFeedback: {feedback}\n\n".strip()
-        llm = ChatOpenAI(model_name="gpt-4o", temperature=0)
+        llm = ChatOpenAI(model_name="gpt-4o-mini", temperature=0)
         q_a_pairs = ""
         if not documents:
                 print("No documents retrieved from webscrapping \n")
