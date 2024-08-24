@@ -70,7 +70,6 @@ def process_qa_pair(chat_log):
             chunk_size=300, 
             chunk_overlap=50
         )
-        documents = []
         try:
             splits = text_splitter.split_documents(documents)
             if not splits:
