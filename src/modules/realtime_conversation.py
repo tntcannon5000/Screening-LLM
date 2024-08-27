@@ -50,6 +50,7 @@ class InterviewBot:
             os.makedirs(f"data/interviews/{self.unixtime}/audio")
             os.makedirs(f"data/interviews/{self.unixtime}/pdfs")
             os.makedirs(f"data/interviews/{self.unixtime}/joblib")
+            os.makedirs(f"data/interviews/{self.unixtime}/outcome")
         self.audio_directory = f"data/interviews/{self.unixtime}/audio/"
         self.pdf_directory = f"data/interviews/{self.unixtime}/pdfs/"
         self.joblib_directory = f"data/interviews/{self.unixtime}/joblib/"
@@ -61,44 +62,41 @@ class InterviewBot:
         ui_thread.start()
         self.settings_updated.wait()
         #Uncomment these lines if you want the to override the UI settings.
-        # self.job_role = "Morning Receptionist (Part Time)"
-        # self.candidate_skill = "Entry-Level"
-        # self.role_description = """
-        # A rare and exciting opportunity has arisen to join a busy and friendly research institute as a morning receptionist with some administrative duties.
-
-        # We are seeking a flexible and enthusiastic team player, who is willing to learn and develop as part of a wider group of friendly and highly skilled professional services staff. If you think that describes you then this is an amazing opportunity to gain experience in a dynamic and skilled environment, so apply today or contact hr@gurdon.cam.ac.uk for an informal discussion about the role.
-
-        # As the first point of contact for the Institute, you will need excellent communication and interpersonal skills and be professional and friendly.
-
-        # Essential Skills For This Post Are
-
-        # Excellent customer service skills
-        # Willingness to be flexible and versatile
-        # Highly organised
-        # Capacity to remain patient and tactful at all times and maintain confidentiality
-        # Ability to multi-task, work under pressure and learn new skills quickly
-        # Excellent communication skills (both written and verbal)
-        # Ability to communicate in a friendly and professional manner with everyone
-        # Computing skills
-
-        # The successful applicant will open reception at 8:30. Reception closes at 17:00, Monday to Friday. The post will cover the morning hours from 8:30 to 12:45 (21.25 hours per week). Some flexibility in covering some of the hours of the afternoon post (12:45 to 17:00) during holiday periods would be desirable.
-
-        # The position is permanent and available immediately.
-
-        # If you have any questions about this vacancy or the application process, please contact the HR team (hr@gurdon.cam.ac.uk).
-
-        # Click the 'Apply' button below to register an account with our recruitment system (if you have not already) and apply online.
-
-        # Please quote reference PR42849 on your application and in any correspondence about this vacancy.
-
-        # The University actively supports equality, diversity and inclusion and encourages applications from all sections of society.
-
-        # The University has a responsibility to ensure that all employees are eligible to live and work in the UK.
-
-        # Further information
-
-        # Further Particulars
-        # """
+        self.job_role = "RAG AI Engineer"
+        self.candidate_skill = "Entry-Level"
+        self.role_description = """
+        Permanent
+        London (Hybrid)
+        Salary - £50,000 - £75,000 p/a + benefits
+        My client are on the cutting edge of digital reinvention, helping clients reimagine how they serve their connected customers and operate enterprises. As an experienced AI Engineer, you'll play a pivotal role in their revolution. You'll leverage deep learning, neuro-linguistic programming (NLP), computer vision, chatbots, and robotics to enhance business outcomes and drive innovation. Join their multidisciplinary team to shape their AI strategy and showcase the potential of AI through early-stage solutions.
+        Tasks
+        1. Enhance Retrieval and Generation:
+        Create and manage RAG pipelines to improve information retrieval and content generation tasks.
+        2. LLMs Optimization:
+        Understand the nuances between prompting and training large language models (LLMs) to enhance model performance.
+        3. LLM Evaluation:
+        Evaluate different LLMs to find the best fit for specific use cases.
+        4. Model Efficiency:
+        Address speed, performance, and cost-related issues in model implementation.
+        5. Collaboration and Innovation:
+        Work closely with cross-functional teams to integrate AI solutions into production environments.
+        Stay informed about the latest advancements in AI and machine learning to continuously enhance our solutions.
+        Requirements
+        4+ years of hands-on Python development experience, especially with machine learning frameworks (e.g., TensorFlow, PyTorch).
+        Proven experience setting up and optimizing retrieval-augmented generation (RAG) pipelines.
+        Strong understanding of large language models (LLMs) and the differences between prompting and training.
+        Production-level experience with AWS services.
+        Hands-on experience testing and comparing different LLMs (OpenAI, Llama, Claude, etc.).
+        Familiarity with model speed and cost optimization challenges.
+        Excellent problem-solving skills and attention to detail.
+        Strong communication and teamwork abilities.
+        Benefits
+        Endless Learning and Growth: Explore boundless opportunities for personal and professional development in our dynamic, AI-driven startup.
+        Inclusive and Supportive Environment: Join a collaborative culture that prioritizes transparency, trust, and open dialogue among team members.
+        Generous Benefits: Enjoy comprehensive perks, including unlimited annual leave, birthday leave, and exciting team trips.
+        Impactful Work: Contribute to the financial industry by working with cutting-edge AI technologies that make a difference.
+        Please apply for this exciting role ASAP!!
+        """
 
         self.system_prompt = f"""
         You are a skilled interviewer who is conducting an initial phone screening interview for a candidate for a {self.candidate_skill} {self.job_role} role to see if the candidate is at minimum somewhat qualified for the role and worth the time to be fully interviewed. The role and company description is copypasted from the job posting as follows: {self.role_description}. Parse through it to extract any information you feel is relevant.
@@ -113,7 +111,7 @@ class InterviewBot:
             chat_model_name = "claude-3-5-sonnet-20240620"
             cv_path = "data/cvs/cv-deb.pdf"
             self.chat_model = ClaudeChatCV(chat_model_name, self.system_prompt, cv_path)
-            self.stt_model = whisper.load_model("medium", device="cuda")
+            self.stt_model = whisper.load_model("large", device="cuda")
             self.tts_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
         except Exception as e:
             print(f"Error setting up models: {str(e)}")

@@ -102,10 +102,16 @@ def process_qa_pair(chat_log):
 
         Use the above context, your own knowledge and background question + answer + accuracy percentage + feedback
         on the subject matter to get the accuracy of the answer. A percentage accuracy score and also note down the 
-        places that the answer was inaccurate and give feedback for those places. Please keep in mind do not check for this :
-        1. Typograpical error as it is a audio interview and words can be misspelled when translated.
-        2. Do not look into things the candidate did not answer if it was not asked in the question.
-        3. Do not provide a summary at the end of each question answer pair.
+        places that the answer was inaccurate and give feedback for those places. Keep in mind the following points 
+        when providing feedback:
+        1. Do not mention any terminology errors in the answer. If you detect there is any errors arising from terminology 
+        correct it in the feedback and mention that it was due to an error in transcription and not a problem with 
+        the candidate. Do not deduct accuracy score because of this
+        2. Do not mention any typographical errors in the answer. If you detect there is any errors arising from typography 
+        correct it in the feedback and mention that it was due to an error in transcription and not a problem with 
+        the candidate. Do not deduct accuracy score because of this.
+        3. Do not mention any topics the candidate did not answer if it was not asked in the question.
+        4. Do not include a summary at the end of each question answer pair.
 
         """
         accuracy_prompt = ChatPromptTemplate.from_template(accuracy_template)

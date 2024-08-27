@@ -139,6 +139,8 @@ class PostConversationProcessor:
             str: Evaluation result.
         """
         ConversationVerifier.process_qa_pair(chatlog_chat)
+        print("The Feedback JSON from the sentiment analyser and accuracy verifier: \n")
+        pprint(chatlog_chat)
         evaluation = self.candidate_evaluator.chat(str(chatlog_chat))
         return evaluation
 
@@ -152,5 +154,5 @@ class PostConversationProcessor:
         chatlog_chat = self.reformat_chatlog()
         chatlog_chat = self.process_sentiments(chatlog_chat)
         evaluation = self.evaluate_candidate(chatlog_chat)
-        pprint(evaluation)
+        #pprint(evaluation)
         return evaluation
