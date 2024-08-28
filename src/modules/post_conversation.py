@@ -7,6 +7,7 @@ from ..utils.humewrapper import HumeSentimentAnalyzer
 from ..modules import ConversationVerifier
 import time
 import traceback
+import json
 
 class PostConversationProcessor:
     """Processes post-conversation data for candidate evaluation."""
@@ -72,11 +73,6 @@ class PostConversationProcessor:
                 }
                 outputchatlog.append(tempdict)
             else:
-                tempdict = {
-                    'interviewer': dropped_context[i]['content'],
-                    'candidate': 'Thank you, goodbye'  
-                }
-                outputchatlog.append(tempdict)
                 break 
 
         return outputchatlog
@@ -142,7 +138,18 @@ class PostConversationProcessor:
         print("The Feedback JSON from the sentiment analyser and accuracy verifier: \n")
         pprint(chatlog_chat)
         evaluation = self.candidate_evaluator.chat(str(chatlog_chat))
-        return evaluation
+        chatlog_file_path = f"data/interviews/{self.timestamp}/outcome/"
+        # Save outcome to file for convinience
+        if not os.path.exists(chatlog_file_path):
+            os.makedirs(chatlog_file_path)
+        with open(chatlog_file_path+"chatlog.json", "w") as file:
+            json.dump(chatlog_chat, file, indent=4)
+        evaluation_file_path = f"data/interviews/{self.timestamp}/outcome/"
+        if not os.path.exists(chatlog_file_path):
+            os.makedirs(chatlog_file_path)
+        with open(evaluation_file_path+"evaluation.txt", "w") as file:
+            file.write(str(evaluation).replace("\\n", "\n"))
+            return evaluation
 
     def run(self):
         """
@@ -154,5 +161,5 @@ class PostConversationProcessor:
         chatlog_chat = self.reformat_chatlog()
         chatlog_chat = self.process_sentiments(chatlog_chat)
         evaluation = self.evaluate_candidate(chatlog_chat)
-        #pprint(evaluation)
+        
         return evaluation

@@ -91,7 +91,6 @@ class HumeSentimentAnalyzer:
         """
         print(predictions)
         pred = predictions[0]['results']['predictions'][0]['models']['language']['grouped_predictions'][0]['predictions'][0]
-        
         result = {
             'emotions': {emotion['name']: emotion['score'] for emotion in pred['emotions']},
             'sentiments': {sentiment['name']: sentiment['score'] for sentiment in pred['sentiment']},
