@@ -62,7 +62,7 @@ class InterviewBot:
         ui_thread.start()
         self.settings_updated.wait()
         #Uncomment these lines if you want the to override the UI settings.
-        self.job_role = "RAG AI Engineer"
+        '''self.job_role = "RAG AI Engineer"
         self.candidate_skill = "Entry-Level"
         self.role_description = """
         Permanent
@@ -96,7 +96,7 @@ class InterviewBot:
         Generous Benefits: Enjoy comprehensive perks, including unlimited annual leave, birthday leave, and exciting team trips.
         Impactful Work: Contribute to the financial industry by working with cutting-edge AI technologies that make a difference.
         Please apply for this exciting role ASAP!!
-        """
+        """ '''
 
         self.system_prompt = f"""
         You are a skilled interviewer who is conducting an initial phone screening interview for a candidate for a {self.candidate_skill} {self.job_role} role to see if the candidate is at minimum somewhat qualified for the role and worth the time to be fully interviewed. The role and company description is copypasted from the job posting as follows: {self.role_description}. Parse through it to extract any information you feel is relevant.
