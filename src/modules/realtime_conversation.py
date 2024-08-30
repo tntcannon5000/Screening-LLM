@@ -140,9 +140,13 @@ class InterviewBot:
         """
         try:
             chat_model_name = "claude-3-5-sonnet-20240620"
-            cv_path = "data/cvs/cv-deb.pdf"
+            cv_path = next((f for f in os.listdir("data/cvs") if "active" in f), None)
+            if cv_path is None:
+                raise FileNotFoundError("No active CV file found in the 'data/cvs' directory.")
+            cv_path = os.path.join("data/cvs", cv_path)
+            print(f"cv_path = {cv_path}")
             self.chat_model = ClaudeChatCV(chat_model_name, self.system_prompt, cv_path)
-            self.stt_model = whisper.load_model("large", device="cuda")
+            self.stt_model = whisper.load_model("medium", device="cuda")
             self.tts_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
         except Exception as e:
             print(f"Error setting up models: {str(e)}")
@@ -357,12 +361,12 @@ class InterviewBot:
                         break
 
                     print("Converting speech to text...")
+                    self.root.after(0, lambda: self.pause_button.config(state="disabled"))
                     text = self.stt_model.transcribe(self.audio_directory + wav_file, language="en")
                     print("You said: ", text.get("text"))
 
                     if self.end_loop:
                         break
-                    self.root.after(0, lambda: self.pause_button.config(state="disabled"))
                     print("Chatting...")
                     response = self.chat_model.chat_with_history_doc(text.get("text"))
 
@@ -375,6 +379,7 @@ class InterviewBot:
                     # Check if the response contains the exit phrase
                     if "Thank you for your time" in response:
                         print("Interview ending...")
+                        self.root.after(0, lambda: self.pause_button.config(state="disabled"))
                         time.sleep(5)
                         self.end_loop = True
                         self.root.after(0, self.root.quit)

@@ -29,9 +29,9 @@ def main():
     except Exception as e:
         print(f"An error occurred during the interview: {e}")
         result = None
-    '''else:
-        postcon = PostConversationProcessor(1724694089)
-        result = postcon.run()'''
+    else:
+        postcon = PostConversationProcessor(timestamp)
+        result = postcon.run()
     result = None 
     if result is not None:
         print(result)
