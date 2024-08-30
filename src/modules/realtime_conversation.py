@@ -62,40 +62,71 @@ class InterviewBot:
         ui_thread.start()
         self.settings_updated.wait()
         #Uncomment these lines if you want the to override the UI settings.
-        self.job_role = "RAG AI Engineer"
+        self.job_role = "Machine Learning Engineer (remote)"
         self.candidate_skill = "Entry-Level"
         self.role_description = """
-        Permanent
-        London (Hybrid)
-        Salary - £50,000 - £75,000 p/a + benefits
-        My client are on the cutting edge of digital reinvention, helping clients reimagine how they serve their connected customers and operate enterprises. As an experienced AI Engineer, you'll play a pivotal role in their revolution. You'll leverage deep learning, neuro-linguistic programming (NLP), computer vision, chatbots, and robotics to enhance business outcomes and drive innovation. Join their multidisciplinary team to shape their AI strategy and showcase the potential of AI through early-stage solutions.
-        Tasks
-        1. Enhance Retrieval and Generation:
-        Create and manage RAG pipelines to improve information retrieval and content generation tasks.
-        2. LLMs Optimization:
-        Understand the nuances between prompting and training large language models (LLMs) to enhance model performance.
-        3. LLM Evaluation:
-        Evaluate different LLMs to find the best fit for specific use cases.
-        4. Model Efficiency:
-        Address speed, performance, and cost-related issues in model implementation.
-        5. Collaboration and Innovation:
-        Work closely with cross-functional teams to integrate AI solutions into production environments.
-        Stay informed about the latest advancements in AI and machine learning to continuously enhance our solutions.
-        Requirements
-        4+ years of hands-on Python development experience, especially with machine learning frameworks (e.g., TensorFlow, PyTorch).
-        Proven experience setting up and optimizing retrieval-augmented generation (RAG) pipelines.
-        Strong understanding of large language models (LLMs) and the differences between prompting and training.
-        Production-level experience with AWS services.
-        Hands-on experience testing and comparing different LLMs (OpenAI, Llama, Claude, etc.).
-        Familiarity with model speed and cost optimization challenges.
-        Excellent problem-solving skills and attention to detail.
-        Strong communication and teamwork abilities.
-        Benefits
-        Endless Learning and Growth: Explore boundless opportunities for personal and professional development in our dynamic, AI-driven startup.
-        Inclusive and Supportive Environment: Join a collaborative culture that prioritizes transparency, trust, and open dialogue among team members.
-        Generous Benefits: Enjoy comprehensive perks, including unlimited annual leave, birthday leave, and exciting team trips.
-        Impactful Work: Contribute to the financial industry by working with cutting-edge AI technologies that make a difference.
-        Please apply for this exciting role ASAP!!
+        About the job
+        About Us:
+
+        Mozilla.ai is at the forefront of the AI revolution, advocating for a truly open-source approach. Our ambition is to empower developers to craft AI solutions that are both scalable and trustworthy.
+
+        Through Lumigator, our model selection platform, we provide tools for evaluating and selecting the most appropriate models for various use cases, ensuring robustness and reliability. Additionally, our open source AI Hub fosters collaboration and innovation in the open-source community, bringing like-minded developers and organization promoting responsible AI practices.
+
+        Together, these initiatives are shaping an AI future anchored in user agency, trustworthiness, and transparency.
+
+        Position: Machine learning engineer 
+        Location: Remote (Europe, East coast of USA, Canada)
+        Type: Full-Time
+        Expected Start Date: Q3 2024
+
+        Position Overview:
+
+        We are seeking a Machine Learning Engineer with a strong background in developing products with ML models at their core - areas like recommendation systems, scaled detection, feature extraction, content modeling, agents, natural language interfaces, search, etc., to join our dynamic team. The ideal candidate will be working on a product engineering team and contribute to our open-source LLM evaluation platform, focusing on model validation, selection, and deployment. The main responsibilities of this position are:
+
+        Develop tools to streamline development, management, and/or evaluation of models
+        Collaborate on the design and build end-to-end machine learning pipelines on cloud infrastructure.
+        Prepare and preprocess datasets for model evaluation.
+        Run and manage experiments related to model evaluation and training
+        Evaluate model performance using standard metrics and techniques.
+        Collaborate with other teams, including product management and platform engineering, to ship features. 
+        Collaborate on the implementation of MLOps best practices to ensure smooth model deployment, monitoring, and maintenance.
+        Engage with internal and external stakeholders, translating complex technical details into clear insights.
+        Contribute to the product engineering lifecycle, from ideation to deployment and maintenance of new features.
+
+        Qualifications:
+
+        Strong background in machine learning and software engineering.
+        Comfortable with open source development work.
+        Experience with deep learning frameworks, (e.g., PyTorch) is a plus
+        Experience with large-scale dataset processing and data augmentation techniques.
+        Experience with managing experiments and models (e.g., platforms like Weights and Biases, MLFlow, KubeFlow). 
+        Strong proficiency in Python and familiarity with relevant libraries and tools.
+        Comfortable working in the cloud - containerization, cloud resource management, etc. 
+        Excellent problem-solving skills and the ability to work both independently and as part of a team.
+        Effective communication skills, including the ability to translate technical concepts to non-technical stakeholders.
+        A demonstrated track record of delivering high-quality, scalable solutions in a fast-paced environment.
+
+        Please don't hesitate to get in touch if you have any questions about this role or how you can bring your unique skills to our team.
+
+        Why us 
+
+        We are more than just a company; we are a community of like-minded individuals driven by a shared passion for creating positive change in society through AI solutions.
+
+        Purpose-Driven Mission: we are a mission-driven early stage company. If you are passionate about the transformative potential of AI and committed to ensure AI solutions that are trustworthy and responsible.
+        Innovation & Impact: cutting-edge AI projects that have a real impact on people's lives.
+        Collaborative Culture: Our team is distributed across different countries, fostering a collaborative and inclusive culture where everyone's input is valued. We make sure to meet several times a year to work together in a place in the world defined in advance.
+        Remote work: We are a 100% remote team, distributed around the world. Since we do not have offices in all locations we partner with an Employer of Record. 
+
+        We are committed to building a diverse and inclusive team. We encourage applications from individuals of all backgrounds, beliefs, and identities.
+
+        Compensation, Benefits and Perks
+
+        Premium package featuring core benefits tailored to your country of residence encompassing essential services such as health insurance and retirement plans (check our comprehensive list of core benefits per location) 
+        25 days per year of Paid Time-off
+        Generous performance-based bonus plans to all regular employees 
+        One-time home office stipend of 1,000 USD
+        Annual professional development budget
+        Annual well-being stipend of 3,500 USD
         """
 
         self.system_prompt = f"""
