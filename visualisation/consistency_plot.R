@@ -10,7 +10,7 @@ library(stringr)
 setwd("D:/Kent/University Of Kent UK/Projects/Disso/Screening-LLM/visualisation")
 
 # Read the data from the Excel file
-df <- read_excel("Consistency-Test.xlsx")
+df <- read_excel("excel/Consistency-Test.xlsx")
 
 # Reshape the data for ggplot2
 df_long <- reshape2::melt(df, id.vars = c("Category", "Interview"),
