@@ -25,12 +25,12 @@ def main():
     """Main function to run the interview and post conversation processing"""
     try:
         bot = InterviewBot()
-        timestamp = bot.main()
+        timestamp, pass_rate = bot.main()
     except Exception as e:
         print(f"An error occurred during the interview: {e}")
         result = None
     else:
-        postcon = PostConversationProcessor(timestamp)
+        postcon = PostConversationProcessor(timestamp, pass_rate)
         result = postcon.run()
     result = None 
     if result is not None:

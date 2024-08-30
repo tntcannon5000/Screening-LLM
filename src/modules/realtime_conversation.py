@@ -31,7 +31,7 @@ class InterviewBot:
         self.SILENCE_DURATION = 1.5
         self.CHUNK_SIZE = 1024
         self.SPEAKING_SPEED = 1.1
-        self.PASS_PERCENTAGE = 50
+        self.PASS_PERCENTAGE = 47
 
         # Globals
         self.pause_loop = True
@@ -62,72 +62,72 @@ class InterviewBot:
         ui_thread.start()
         self.settings_updated.wait()
         #Uncomment these lines if you want the to override the UI settings.
-        self.job_role = "Machine Learning Engineer (remote)"
-        self.candidate_skill = "Entry-Level"
-        self.role_description = """
-        About the job
-        About Us:
+        # self.job_role = "Machine Learning Engineer (remote)"
+        # self.candidate_skill = "Entry-Level"
+        # self.role_description = """
+        # About the job
+        # About Us:
 
-        Mozilla.ai is at the forefront of the AI revolution, advocating for a truly open-source approach. Our ambition is to empower developers to craft AI solutions that are both scalable and trustworthy.
+        # Mozilla.ai is at the forefront of the AI revolution, advocating for a truly open-source approach. Our ambition is to empower developers to craft AI solutions that are both scalable and trustworthy.
 
-        Through Lumigator, our model selection platform, we provide tools for evaluating and selecting the most appropriate models for various use cases, ensuring robustness and reliability. Additionally, our open source AI Hub fosters collaboration and innovation in the open-source community, bringing like-minded developers and organization promoting responsible AI practices.
+        # Through Lumigator, our model selection platform, we provide tools for evaluating and selecting the most appropriate models for various use cases, ensuring robustness and reliability. Additionally, our open source AI Hub fosters collaboration and innovation in the open-source community, bringing like-minded developers and organization promoting responsible AI practices.
 
-        Together, these initiatives are shaping an AI future anchored in user agency, trustworthiness, and transparency.
+        # Together, these initiatives are shaping an AI future anchored in user agency, trustworthiness, and transparency.
 
-        Position: Machine learning engineer 
-        Location: Remote (Europe, East coast of USA, Canada)
-        Type: Full-Time
-        Expected Start Date: Q3 2024
+        # Position: Machine learning engineer 
+        # Location: Remote (Europe, East coast of USA, Canada)
+        # Type: Full-Time
+        # Expected Start Date: Q3 2024
 
-        Position Overview:
+        # Position Overview:
 
-        We are seeking a Machine Learning Engineer with a strong background in developing products with ML models at their core - areas like recommendation systems, scaled detection, feature extraction, content modeling, agents, natural language interfaces, search, etc., to join our dynamic team. The ideal candidate will be working on a product engineering team and contribute to our open-source LLM evaluation platform, focusing on model validation, selection, and deployment. The main responsibilities of this position are:
+        # We are seeking a Machine Learning Engineer with a strong background in developing products with ML models at their core - areas like recommendation systems, scaled detection, feature extraction, content modeling, agents, natural language interfaces, search, etc., to join our dynamic team. The ideal candidate will be working on a product engineering team and contribute to our open-source LLM evaluation platform, focusing on model validation, selection, and deployment. The main responsibilities of this position are:
 
-        Develop tools to streamline development, management, and/or evaluation of models
-        Collaborate on the design and build end-to-end machine learning pipelines on cloud infrastructure.
-        Prepare and preprocess datasets for model evaluation.
-        Run and manage experiments related to model evaluation and training
-        Evaluate model performance using standard metrics and techniques.
-        Collaborate with other teams, including product management and platform engineering, to ship features. 
-        Collaborate on the implementation of MLOps best practices to ensure smooth model deployment, monitoring, and maintenance.
-        Engage with internal and external stakeholders, translating complex technical details into clear insights.
-        Contribute to the product engineering lifecycle, from ideation to deployment and maintenance of new features.
+        # Develop tools to streamline development, management, and/or evaluation of models
+        # Collaborate on the design and build end-to-end machine learning pipelines on cloud infrastructure.
+        # Prepare and preprocess datasets for model evaluation.
+        # Run and manage experiments related to model evaluation and training
+        # Evaluate model performance using standard metrics and techniques.
+        # Collaborate with other teams, including product management and platform engineering, to ship features. 
+        # Collaborate on the implementation of MLOps best practices to ensure smooth model deployment, monitoring, and maintenance.
+        # Engage with internal and external stakeholders, translating complex technical details into clear insights.
+        # Contribute to the product engineering lifecycle, from ideation to deployment and maintenance of new features.
 
-        Qualifications:
+        # Qualifications:
 
-        Strong background in machine learning and software engineering.
-        Comfortable with open source development work.
-        Experience with deep learning frameworks, (e.g., PyTorch) is a plus
-        Experience with large-scale dataset processing and data augmentation techniques.
-        Experience with managing experiments and models (e.g., platforms like Weights and Biases, MLFlow, KubeFlow). 
-        Strong proficiency in Python and familiarity with relevant libraries and tools.
-        Comfortable working in the cloud - containerization, cloud resource management, etc. 
-        Excellent problem-solving skills and the ability to work both independently and as part of a team.
-        Effective communication skills, including the ability to translate technical concepts to non-technical stakeholders.
-        A demonstrated track record of delivering high-quality, scalable solutions in a fast-paced environment.
+        # Strong background in machine learning and software engineering.
+        # Comfortable with open source development work.
+        # Experience with deep learning frameworks, (e.g., PyTorch) is a plus
+        # Experience with large-scale dataset processing and data augmentation techniques.
+        # Experience with managing experiments and models (e.g., platforms like Weights and Biases, MLFlow, KubeFlow). 
+        # Strong proficiency in Python and familiarity with relevant libraries and tools.
+        # Comfortable working in the cloud - containerization, cloud resource management, etc. 
+        # Excellent problem-solving skills and the ability to work both independently and as part of a team.
+        # Effective communication skills, including the ability to translate technical concepts to non-technical stakeholders.
+        # A demonstrated track record of delivering high-quality, scalable solutions in a fast-paced environment.
 
-        Please don't hesitate to get in touch if you have any questions about this role or how you can bring your unique skills to our team.
+        # Please don't hesitate to get in touch if you have any questions about this role or how you can bring your unique skills to our team.
 
-        Why us 
+        # Why us 
 
-        We are more than just a company; we are a community of like-minded individuals driven by a shared passion for creating positive change in society through AI solutions.
+        # We are more than just a company; we are a community of like-minded individuals driven by a shared passion for creating positive change in society through AI solutions.
 
-        Purpose-Driven Mission: we are a mission-driven early stage company. If you are passionate about the transformative potential of AI and committed to ensure AI solutions that are trustworthy and responsible.
-        Innovation & Impact: cutting-edge AI projects that have a real impact on people's lives.
-        Collaborative Culture: Our team is distributed across different countries, fostering a collaborative and inclusive culture where everyone's input is valued. We make sure to meet several times a year to work together in a place in the world defined in advance.
-        Remote work: We are a 100% remote team, distributed around the world. Since we do not have offices in all locations we partner with an Employer of Record. 
+        # Purpose-Driven Mission: we are a mission-driven early stage company. If you are passionate about the transformative potential of AI and committed to ensure AI solutions that are trustworthy and responsible.
+        # Innovation & Impact: cutting-edge AI projects that have a real impact on people's lives.
+        # Collaborative Culture: Our team is distributed across different countries, fostering a collaborative and inclusive culture where everyone's input is valued. We make sure to meet several times a year to work together in a place in the world defined in advance.
+        # Remote work: We are a 100% remote team, distributed around the world. Since we do not have offices in all locations we partner with an Employer of Record. 
 
-        We are committed to building a diverse and inclusive team. We encourage applications from individuals of all backgrounds, beliefs, and identities.
+        # We are committed to building a diverse and inclusive team. We encourage applications from individuals of all backgrounds, beliefs, and identities.
 
-        Compensation, Benefits and Perks
+        # Compensation, Benefits and Perks
 
-        Premium package featuring core benefits tailored to your country of residence encompassing essential services such as health insurance and retirement plans (check our comprehensive list of core benefits per location) 
-        25 days per year of Paid Time-off
-        Generous performance-based bonus plans to all regular employees 
-        One-time home office stipend of 1,000 USD
-        Annual professional development budget
-        Annual well-being stipend of 3,500 USD
-        """
+        # Premium package featuring core benefits tailored to your country of residence encompassing essential services such as health insurance and retirement plans (check our comprehensive list of core benefits per location) 
+        # 25 days per year of Paid Time-off
+        # Generous performance-based bonus plans to all regular employees 
+        # One-time home office stipend of 1,000 USD
+        # Annual professional development budget
+        # Annual well-being stipend of 3,500 USD
+        # """
 
         self.system_prompt = f"""
         You are a skilled interviewer who is conducting an initial phone screening interview for a candidate for a {self.candidate_skill} {self.job_role} role to see if the candidate is at minimum somewhat qualified for the role and worth the time to be fully interviewed. The role and company description is copypasted from the job posting as follows: {self.role_description}. Parse through it to extract any information you feel is relevant.
@@ -432,4 +432,4 @@ class InterviewBot:
             str: The Unix timestamp of the interview session."""
         self.run_interview()
         self.save_conversation()
-        return self.unixtime
+        return self.unixtime, self.PASS_PERCENTAGE

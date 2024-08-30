@@ -11,7 +11,7 @@ import json
 
 class PostConversationProcessor:
     """Processes post-conversation data for candidate evaluation."""
-    def __init__(self, timestamp):
+    def __init__(self, timestamp, pass_rate):
         """
         Initialize the PostConversationProcessor.
 
@@ -20,6 +20,7 @@ class PostConversationProcessor:
         """
         load_dotenv(os.path.join(os.path.dirname(os.getcwd()), ".env"))
         self.timestamp = timestamp
+        self.pass_rate = str(pass_rate)
         self.directory = f'data/interviews/{timestamp}/'
         self.chatlog = load(os.path.join(self.directory, "joblib/conversation.joblib"))
         self.setup_models()
@@ -40,7 +41,7 @@ class PostConversationProcessor:
             
             self.sentiment_summariser = ClaudeChat("claude-3-5-sonnet-20240620", sentiment_system_prompt)
 
-            evaluation_system_prompt = """You are a highly skilled interviewer currently tasked with reviewing a phone screening interview candidate to decide whether they are to pass on to the next stage of the interview process. There is a high volume of candidates and as such only 47% of candidates should be allowed to pass.
+            evaluation_system_prompt = f"""You are a highly skilled interviewer currently tasked with reviewing a phone screening interview candidate to decide whether they are to pass on to the next stage of the interview process. There is a high volume of candidates and as such only {self.pass_rate}% of candidates should be allowed to pass.
             You will be provided with the following information to aid your decision:
             1. A copy of the job description.
             2. Transcript of the phone interview between the interviewer and candidate.
