@@ -41,7 +41,7 @@ class PostConversationProcessor:
             
             self.sentiment_summariser = ClaudeChat("claude-3-5-sonnet-20240620", sentiment_system_prompt)
 
-            evaluation_system_prompt = f"""You are a highly skilled interviewer currently tasked with reviewing a phone screening interview candidate to decide whether they are to pass on to the next stage of the interview process. There is a high volume of candidates and as such only {self.pass_rate}% of candidates should be allowed to pass.
+            evaluation_system_prompt = f"""You are a highly skilled interviewer currently tasked with reviewing a phone screening interview candidate to decide whether they are to pass on to the next stage of the interview process. There is a high volume of candidates and as such {self.pass_rate}% of candidates should be allowed to pass.
             You will be provided with the following information to aid your decision:
             1. A copy of the job description.
             2. Transcript of the phone interview between the interviewer and candidate.

@@ -62,72 +62,50 @@ class InterviewBot:
         ui_thread.start()
         self.settings_updated.wait()
         #Uncomment these lines if you want the to override the UI settings.
-        # self.job_role = "Machine Learning Engineer (remote)"
-        # self.candidate_skill = "Entry-Level"
-        # self.role_description = """
-        # About the job
-        # About Us:
+        self.job_role = "IT Support Engineer"
+        self.candidate_skill = "Entry-Level"
+        self.role_description = """
+        Job description
+        Job Description
 
-        # Mozilla.ai is at the forefront of the AI revolution, advocating for a truly open-source approach. Our ambition is to empower developers to craft AI solutions that are both scalable and trustworthy.
+        IT Support Engineer
 
-        # Through Lumigator, our model selection platform, we provide tools for evaluating and selecting the most appropriate models for various use cases, ensuring robustness and reliability. Additionally, our open source AI Hub fosters collaboration and innovation in the open-source community, bringing like-minded developers and organization promoting responsible AI practices.
+        Our Client is an established bank based in Central London.
 
-        # Together, these initiatives are shaping an AI future anchored in user agency, trustworthiness, and transparency.
+        They are looking to recruit an IT Support Analyst with at least 5 plus years hands-on expertise of working within IT Support and Infrastructure.
 
-        # Position: Machine learning engineer 
-        # Location: Remote (Europe, East coast of USA, Canada)
-        # Type: Full-Time
-        # Expected Start Date: Q3 2024
+        The following are list of skills required for the position:
 
-        # Position Overview:
+        · Microsoft Windows (all versions) experience to a high level (troubleshoot and effectively resolve issues by research/using knowledge bases in a confident way).
 
-        # We are seeking a Machine Learning Engineer with a strong background in developing products with ML models at their core - areas like recommendation systems, scaled detection, feature extraction, content modeling, agents, natural language interfaces, search, etc., to join our dynamic team. The ideal candidate will be working on a product engineering team and contribute to our open-source LLM evaluation platform, focusing on model validation, selection, and deployment. The main responsibilities of this position are:
+        · Active Directory to a high level - security groups, administration/deployment, LDAP, ADSI.
 
-        # Develop tools to streamline development, management, and/or evaluation of models
-        # Collaborate on the design and build end-to-end machine learning pipelines on cloud infrastructure.
-        # Prepare and preprocess datasets for model evaluation.
-        # Run and manage experiments related to model evaluation and training
-        # Evaluate model performance using standard metrics and techniques.
-        # Collaborate with other teams, including product management and platform engineering, to ship features. 
-        # Collaborate on the implementation of MLOps best practices to ensure smooth model deployment, monitoring, and maintenance.
-        # Engage with internal and external stakeholders, translating complex technical details into clear insights.
-        # Contribute to the product engineering lifecycle, from ideation to deployment and maintenance of new features.
+        · Citrix XenApps – Administration, Maintenance and Support of existing Citrix XenApps server farm
 
-        # Qualifications:
+        · Windows Server Environment 2012/2016 - design, deployment, maintenance and support.
 
-        # Strong background in machine learning and software engineering.
-        # Comfortable with open source development work.
-        # Experience with deep learning frameworks, (e.g., PyTorch) is a plus
-        # Experience with large-scale dataset processing and data augmentation techniques.
-        # Experience with managing experiments and models (e.g., platforms like Weights and Biases, MLFlow, KubeFlow). 
-        # Strong proficiency in Python and familiarity with relevant libraries and tools.
-        # Comfortable working in the cloud - containerization, cloud resource management, etc. 
-        # Excellent problem-solving skills and the ability to work both independently and as part of a team.
-        # Effective communication skills, including the ability to translate technical concepts to non-technical stakeholders.
-        # A demonstrated track record of delivering high-quality, scalable solutions in a fast-paced environment.
+        · VM-Ware virtualisation environments.
 
-        # Please don't hesitate to get in touch if you have any questions about this role or how you can bring your unique skills to our team.
+        · Backups (various and ability to use different applications).
 
-        # Why us 
+        · Networking - design/troubleshoot/installation (VLAN, routing, switching, TCP/IP and OSI)
 
-        # We are more than just a company; we are a community of like-minded individuals driven by a shared passion for creating positive change in society through AI solutions.
+        · Router maintenance - wireless configuration, installation and setups.
 
-        # Purpose-Driven Mission: we are a mission-driven early stage company. If you are passionate about the transformative potential of AI and committed to ensure AI solutions that are trustworthy and responsible.
-        # Innovation & Impact: cutting-edge AI projects that have a real impact on people's lives.
-        # Collaborative Culture: Our team is distributed across different countries, fostering a collaborative and inclusive culture where everyone's input is valued. We make sure to meet several times a year to work together in a place in the world defined in advance.
-        # Remote work: We are a 100% remote team, distributed around the world. Since we do not have offices in all locations we partner with an Employer of Record. 
+        · PowerShell to a competent level (backup/azure/EMC).
 
-        # We are committed to building a diverse and inclusive team. We encourage applications from individuals of all backgrounds, beliefs, and identities.
+        · VPN Administration and Deployment.
 
-        # Compensation, Benefits and Perks
+        · DNS – administration of DNS internal and external.
 
-        # Premium package featuring core benefits tailored to your country of residence encompassing essential services such as health insurance and retirement plans (check our comprehensive list of core benefits per location) 
-        # 25 days per year of Paid Time-off
-        # Generous performance-based bonus plans to all regular employees 
-        # One-time home office stipend of 1,000 USD
-        # Annual professional development budget
-        # Annual well-being stipend of 3,500 USD
-        # """
+        The salary for this position with be circa £45K - £55K.
+
+        This is a hybrid position and you will be required to be in the office at least 3 days a week.
+
+        The position will be a 12 month full time contract – FTC initially.
+
+        Do send your CV to us in Word format along with your salary and availability.
+        """
 
         self.system_prompt = f"""
         You are a skilled interviewer who is conducting an initial phone screening interview for a candidate for a {self.candidate_skill} {self.job_role} role to see if the candidate is at minimum somewhat qualified for the role and worth the time to be fully interviewed. The role and company description is copypasted from the job posting as follows: {self.role_description}. Parse through it to extract any information you feel is relevant.

@@ -58,9 +58,8 @@ This Fully Automated Screening Interview & Performance Evaluation System offers 
      ![image](https://github.com/user-attachments/assets/76da2ff8-7fa6-4a61-b444-c7df69f95658)
 
 5. **Provide a CV for the system**
-   - Place a CV
+   - Place a CV of your choice within the data/cvs folder. Ensure that it contains the word "active" within the filename, and that only one CV within the folder contains "active" in the filename.
 
-   ![image](https://github.com/user-attachments/assets/1be020da-0c41-434c-a56a-8bd289c7db15)
 
 6. **Run the Main Script (or other scripts):**
    - You can now run your main script or other scripts in your project. For example:

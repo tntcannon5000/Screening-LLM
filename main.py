@@ -6,7 +6,7 @@ import os
 def main():
     # Load the environment variables
     load_dotenv(os.path.join(os.path.dirname(os.getcwd()), ".env"))
-
+    load_dotenv(find_dotenv())
     # List of required environment variables
     required_vars = [
         "OPENAI_API_KEY",
@@ -38,8 +38,13 @@ def main():
 
     input("Press enter to exit")
 
-    
+def eval_candidate(timestamp, pass_rate):
+    postcon = PostConversationProcessor(str(timestamp), pass_rate)
+    result = postcon.run()
+    print(result)
+
 # Run the main.py file
 if __name__ == '__main__':
     """Run the main function"""
-    main()
+    #main()
+    eval_candidate(1725184560, 47)
