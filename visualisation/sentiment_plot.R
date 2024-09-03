@@ -6,7 +6,7 @@ library(RColorBrewer)
 setwd("D:/Kent/University Of Kent UK/Projects/Disso/Screening-LLM/visualisation")
 
 # Load the data from the Excel file
-sentiment_data <- read_excel("excel/Sentiment_variability_plot.xlsx",sheet = "ManSentRagFail") 
+sentiment_data <- read_excel("excel/Sentiment_variability_plot.xlsx",sheet = "OrgSentRagPass") 
 
 # Ensure 'Accuracy' is numeric
 sentiment_data$Accuracy <- as.numeric(sentiment_data$Accuracy)
@@ -72,4 +72,4 @@ ggplot(sentiment_data, aes(x = Question_Accuracy, y = Score, color = Sentiment, 
   guides(color = guide_legend(override.aes = list(size = 5)))  # Make legend points a consistent size
 
 # Save the plot (optional)
-ggsave("plot/ManSentRagFail_plot.png", width = 12, height = 8)
+ggsave("plot/OrgSentRagPass_plot.png", width = 12, height = 8)

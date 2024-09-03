@@ -3,7 +3,7 @@ library(tidyverse)
 
 # Create the dataset
 data <- tibble(
-  interview = c("1234", "1234", "1235", "1235"),
+  interview = c("1724982582", "1724982582", "1725236280", "1725236280"),
   scraper = c("w/o scraper", "w scraper", "w/o scraper", "w scraper"),
   result = c("fail", "pass", "fail", "pass")
 )

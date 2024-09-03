@@ -37,4 +37,4 @@ plot <- ggplot(df_long, aes(x = factor(Interview), y = Count, fill = Outcome)) +
 print(plot)
 
 # Save the plot as a PNG file
-ggsave(filename = "consistency_plot.png", plot = plot, path = "D:/Kent/University Of Kent UK/Projects/Disso/Screening-LLM/visualisation", width = 12, height = 8, dpi = 300)
+ggsave(filename = "plot/consistency_plot.png", plot = plot, path = "D:/Kent/University Of Kent UK/Projects/Disso/Screening-LLM/visualisation", width = 12, height = 8, dpi = 300)

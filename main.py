@@ -5,8 +5,8 @@ import os
 
 def main():
     # Load the environment variables
-    load_dotenv(os.path.join(os.path.dirname(os.getcwd()), ".env"))
-
+    load_dotenv(find_dotenv())
+    print(f"environment : {find_dotenv()}")
     # List of required environment variables
     required_vars = [
         "OPENAI_API_KEY",
