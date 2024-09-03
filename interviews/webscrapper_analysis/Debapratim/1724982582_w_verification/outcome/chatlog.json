@@ -1,8 +1,0 @@
-[
-    {
-        "interviewer": "Hello! Thank you for taking the time to speak with me today about the Entry Level RAG Engineer role. I'd like to start our conversation with a question: What is the most up-to-date LLM, and which company developed it?",
-        "candidate": " I'm sure. So the most up-to-date LLMs are Cloud 3.5 Sonnet that is C-L-A-U-D-E 3.5 Sonnet developed by Anthropic and GPT-4-O Mini that is GPT-4-O Mini developed by OpenAI.",
-        "sentiment": "For this particular response, the candidate exhibited a predominantly neutral emotional state with notable levels of calmness (0.19) and contentment (0.11), while also displaying moderate levels of contemplation (0.09), realization (0.09), and satisfaction (0.09), suggesting a thoughtful and composed demeanor during the interview.",
-        "feedback": "The accuracy of the answer provided is 50%.\n\n**Inaccuracies:**\n1. The name \"Cloud 3.5 Sonnet\" should be \"Claude 3.5 Sonnet.\" This appears to be a transcription error and does not reflect a misunderstanding of the model's name.\n2. The answer states \"GPT-4-O Mini,\" which should be \"GPT-4o Mini.\" This is also likely a transcription error.\n\n**Feedback:**\n- The candidate correctly identified Claude 3.5 Sonnet as developed by Anthropic and GPT-4o Mini as developed by OpenAI. However, the inaccuracies in the names of the models detract from the overall correctness of the answer. It is important to ensure the correct spelling of model names to maintain clarity and accuracy in communication."
-    }
-]

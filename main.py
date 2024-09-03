@@ -5,8 +5,8 @@ import os
 
 def main():
     # Load the environment variables
+    load_dotenv(os.path.join(os.path.dirname(os.getcwd()), ".env"))
     load_dotenv(find_dotenv())
-    print(f"environment : {find_dotenv()}")
     # List of required environment variables
     required_vars = [
         "OPENAI_API_KEY",
@@ -25,12 +25,12 @@ def main():
     """Main function to run the interview and post conversation processing"""
     try:
         bot = InterviewBot()
-        timestamp = bot.main()
+        timestamp, pass_rate = bot.main()
     except Exception as e:
         print(f"An error occurred during the interview: {e}")
         result = None
     else:
-        postcon = PostConversationProcessor(timestamp)
+        postcon = PostConversationProcessor(timestamp, pass_rate)
         result = postcon.run()
     result = None 
     if result is not None:
@@ -38,8 +38,13 @@ def main():
 
     input("Press enter to exit")
 
-    
+def eval_candidate(timestamp, pass_rate):
+    postcon = PostConversationProcessor(str(timestamp), pass_rate)
+    result = postcon.run()
+    print(result)
+
 # Run the main.py file
 if __name__ == '__main__':
     """Run the main function"""
-    main()
+    #main()
+    #eval_candidate(1725184560, 47)

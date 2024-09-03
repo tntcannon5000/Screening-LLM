@@ -31,7 +31,7 @@ class InterviewBot:
         self.SILENCE_DURATION = 1.5
         self.CHUNK_SIZE = 1024
         self.SPEAKING_SPEED = 1.1
-        self.PASS_PERCENTAGE = 50
+        self.PASS_PERCENTAGE = 47
 
         # Globals
         self.pause_loop = True
@@ -62,41 +62,50 @@ class InterviewBot:
         ui_thread.start()
         self.settings_updated.wait()
         #Uncomment these lines if you want the to override the UI settings.
-        '''self.job_role = "RAG AI Engineer"
+        self.job_role = "IT Support Engineer"
         self.candidate_skill = "Entry-Level"
         self.role_description = """
-        Permanent
-        London (Hybrid)
-        Salary - £50,000 - £75,000 p/a + benefits
-        My client are on the cutting edge of digital reinvention, helping clients reimagine how they serve their connected customers and operate enterprises. As an experienced AI Engineer, you'll play a pivotal role in their revolution. You'll leverage deep learning, neuro-linguistic programming (NLP), computer vision, chatbots, and robotics to enhance business outcomes and drive innovation. Join their multidisciplinary team to shape their AI strategy and showcase the potential of AI through early-stage solutions.
-        Tasks
-        1. Enhance Retrieval and Generation:
-        Create and manage RAG pipelines to improve information retrieval and content generation tasks.
-        2. LLMs Optimization:
-        Understand the nuances between prompting and training large language models (LLMs) to enhance model performance.
-        3. LLM Evaluation:
-        Evaluate different LLMs to find the best fit for specific use cases.
-        4. Model Efficiency:
-        Address speed, performance, and cost-related issues in model implementation.
-        5. Collaboration and Innovation:
-        Work closely with cross-functional teams to integrate AI solutions into production environments.
-        Stay informed about the latest advancements in AI and machine learning to continuously enhance our solutions.
-        Requirements
-        4+ years of hands-on Python development experience, especially with machine learning frameworks (e.g., TensorFlow, PyTorch).
-        Proven experience setting up and optimizing retrieval-augmented generation (RAG) pipelines.
-        Strong understanding of large language models (LLMs) and the differences between prompting and training.
-        Production-level experience with AWS services.
-        Hands-on experience testing and comparing different LLMs (OpenAI, Llama, Claude, etc.).
-        Familiarity with model speed and cost optimization challenges.
-        Excellent problem-solving skills and attention to detail.
-        Strong communication and teamwork abilities.
-        Benefits
-        Endless Learning and Growth: Explore boundless opportunities for personal and professional development in our dynamic, AI-driven startup.
-        Inclusive and Supportive Environment: Join a collaborative culture that prioritizes transparency, trust, and open dialogue among team members.
-        Generous Benefits: Enjoy comprehensive perks, including unlimited annual leave, birthday leave, and exciting team trips.
-        Impactful Work: Contribute to the financial industry by working with cutting-edge AI technologies that make a difference.
-        Please apply for this exciting role ASAP!!
-        """ '''
+        Job description
+        Job Description
+
+        IT Support Engineer
+
+        Our Client is an established bank based in Central London.
+
+        They are looking to recruit an IT Support Analyst with at least 5 plus years hands-on expertise of working within IT Support and Infrastructure.
+
+        The following are list of skills required for the position:
+
+        · Microsoft Windows (all versions) experience to a high level (troubleshoot and effectively resolve issues by research/using knowledge bases in a confident way).
+
+        · Active Directory to a high level - security groups, administration/deployment, LDAP, ADSI.
+
+        · Citrix XenApps – Administration, Maintenance and Support of existing Citrix XenApps server farm
+
+        · Windows Server Environment 2012/2016 - design, deployment, maintenance and support.
+
+        · VM-Ware virtualisation environments.
+
+        · Backups (various and ability to use different applications).
+
+        · Networking - design/troubleshoot/installation (VLAN, routing, switching, TCP/IP and OSI)
+
+        · Router maintenance - wireless configuration, installation and setups.
+
+        · PowerShell to a competent level (backup/azure/EMC).
+
+        · VPN Administration and Deployment.
+
+        · DNS – administration of DNS internal and external.
+
+        The salary for this position with be circa £45K - £55K.
+
+        This is a hybrid position and you will be required to be in the office at least 3 days a week.
+
+        The position will be a 12 month full time contract – FTC initially.
+
+        Do send your CV to us in Word format along with your salary and availability.
+        """
 
         self.system_prompt = f"""
         You are a skilled interviewer who is conducting an initial phone screening interview for a candidate for a {self.candidate_skill} {self.job_role} role to see if the candidate
@@ -410,4 +419,4 @@ class InterviewBot:
             str: The Unix timestamp of the interview session."""
         self.run_interview()
         self.save_conversation()
-        return self.unixtime
+        return self.unixtime, self.PASS_PERCENTAGE
