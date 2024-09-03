@@ -47,4 +47,4 @@ def eval_candidate(timestamp, pass_rate):
 if __name__ == '__main__':
     """Run the main function"""
     #main()
-    eval_candidate(1725184560, 47)
+    #eval_candidate(1725184560, 47)
