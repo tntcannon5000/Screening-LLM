@@ -1,0 +1,8 @@
+[
+    {
+        "interviewer": "Hello! Thank you for taking the time to speak with me today about the Entry Level Political Analyst role. I'd like to start our conversation with a question: Did Kamala Harris officially announce her nomination for the 2024 US Presidential Election?",
+        "candidate": " Yes, she did.",
+        "sentiment": "For this particular response, the candidate exhibited a notable level of calmness (0.32) and interest (0.22), along with moderate levels of positive surprise (0.16) and enthusiasm (0.09), suggesting an engaged and composed demeanor, although a slight undercurrent of boredom (0.11) was also present, potentially indicating room for improvement in maintaining consistent enthusiasm throughout the interview.",
+        "feedback": "The answer provided is inaccurate. As of my last knowledge update in October 2023, Kamala Harris had not officially announced her nomination for the 2024 US Presidential Election. Therefore, the correct response would be \"No, she did not.\"\n\nAccuracy Score: 0%\n\nFeedback: The answer incorrectly states that Kamala Harris announced her nomination. It is important to verify the latest information regarding political announcements, as this can change frequently. Please ensure to check reliable news sources for the most current updates on political candidates and their announcements."
+    }
+]

@@ -7,10 +7,11 @@ from ..utils.humewrapper import HumeSentimentAnalyzer
 from ..modules import ConversationVerifier
 import time
 import traceback
+import json
 
 class PostConversationProcessor:
     """Processes post-conversation data for candidate evaluation."""
-    def __init__(self, timestamp):
+    def __init__(self, timestamp, pass_rate):
         """
         Initialize the PostConversationProcessor.
 
@@ -19,6 +20,7 @@ class PostConversationProcessor:
         """
         load_dotenv(os.path.join(os.path.dirname(os.getcwd()), ".env"))
         self.timestamp = timestamp
+        self.pass_rate = str(pass_rate)
         self.directory = f'data/interviews/{timestamp}/'
         self.chatlog = load(os.path.join(self.directory, "joblib/conversation.joblib"))
         self.setup_models()
@@ -39,7 +41,7 @@ class PostConversationProcessor:
             
             self.sentiment_summariser = ClaudeChat("claude-3-5-sonnet-20240620", sentiment_system_prompt)
 
-            evaluation_system_prompt = """You are a highly skilled interviewer currently tasked with reviewing a phone screening interview candidate to decide whether they are to pass on to the next stage of the interview process. There is a high volume of candidates and as such only 47% of candidates should be allowed to pass.
+            evaluation_system_prompt = f"""You are a highly skilled interviewer currently tasked with reviewing a phone screening interview candidate to decide whether they are to pass on to the next stage of the interview process. There is a high volume of candidates and as such {self.pass_rate}% of candidates should be allowed to pass.
             You will be provided with the following information to aid your decision:
             1. A copy of the job description.
             2. Transcript of the phone interview between the interviewer and candidate.
@@ -48,8 +50,12 @@ class PostConversationProcessor:
             5. A copt of the candidate's CV, which will be provided next.
 
             You are to evaluate the candidate, primarily on the transcript, and use the additional information provided to identify any potential red-flags. Your response should include a detailed breakdown of why the candidate is chosen to continue onwards to further interviewing. You must end the breakdown with a simple one word response on a new line, "pass" or "fail"."""
-
-            self.candidate_evaluator = ClaudeChatAssess("claude-3-5-sonnet-20240620", evaluation_system_prompt, "data/cvs/cv-deb.pdf")
+            
+            cv_path = next((f for f in os.listdir("data/cvs") if "active" in f), None)
+            if cv_path is None:
+                raise FileNotFoundError("No active CV file found in the 'data/cvs' directory.")
+            cv_path = os.path.join("data/cvs", cv_path)
+            self.candidate_evaluator = ClaudeChatAssess("claude-3-5-sonnet-20240620", evaluation_system_prompt, cv_path)
         except Exception as e:
             print(f"An error occurred during model setup: {e}")
             raise
@@ -72,11 +78,6 @@ class PostConversationProcessor:
                 }
                 outputchatlog.append(tempdict)
             else:
-                tempdict = {
-                    'interviewer': dropped_context[i]['content'],
-                    'candidate': 'Thank you, goodbye'  
-                }
-                outputchatlog.append(tempdict)
                 break 
 
         return outputchatlog
@@ -139,8 +140,21 @@ class PostConversationProcessor:
             str: Evaluation result.
         """
         ConversationVerifier.process_qa_pair(chatlog_chat)
+        print("The Feedback JSON from the sentiment analyser and accuracy verifier: \n")
+        pprint(chatlog_chat)
         evaluation = self.candidate_evaluator.chat(str(chatlog_chat))
-        return evaluation
+        chatlog_file_path = f"data/interviews/{self.timestamp}/outcome/"
+        # Save outcome to file for convinience
+        if not os.path.exists(chatlog_file_path):
+            os.makedirs(chatlog_file_path)
+        with open(chatlog_file_path+"chatlog.json", "w") as file:
+            json.dump(chatlog_chat, file, indent=4)
+        evaluation_file_path = f"data/interviews/{self.timestamp}/outcome/"
+        if not os.path.exists(chatlog_file_path):
+            os.makedirs(chatlog_file_path)
+        with open(evaluation_file_path+"evaluation.txt", "w") as file:
+            file.write(str(evaluation).replace("\\n", "\n"))
+            return evaluation
 
     def run(self):
         """
@@ -152,5 +166,6 @@ class PostConversationProcessor:
         chatlog_chat = self.reformat_chatlog()
         chatlog_chat = self.process_sentiments(chatlog_chat)
         evaluation = self.evaluate_candidate(chatlog_chat)
+        pprint("------------------Evaluation----------------------")
         pprint(evaluation)
         return evaluation

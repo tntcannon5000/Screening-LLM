@@ -4,6 +4,28 @@ from collections import defaultdict
 import json
 import os
 from dotenv import load_dotenv
+from dataclasses import dataclass
+from typing import Optional
+
+from hume._common.config_base import ConfigBase
+
+@dataclass
+class TranscriptionConfig(ConfigBase["TranscriptionConfig"]):
+    """Configuration for speech transcription.
+
+    Args:
+        language (Optional[str]): By default, we use an automated language detection method for our
+            Speech Prosody, Language, and NER models. However, if you know what language is being spoken
+            in your media samples, you can specify it via its BCP-47 tag and potentially obtain more accurate results.
+            You can specify any of the following: `zh`, `da`, `nl`, `en`, `en-AU`,
+            `en-IN`, `en-NZ`, `en-GB`, `fr`, `fr-CA`, `de`, `hi`, `hi-Latn`, `id`, `it`, `ja`, `ko`, `no`,
+            `pl`, `pt`, `pt-BR`, `pt-PT`, `ru`, `es`, `es-419`, `sv`, `ta`, `tr`, or `uk`.
+        confidence_threshold (Optional[float]): By default it is set to 0.5, but we can modify set a value from 0 to 1.
+        This represents the confidence hume.Ai has on the answer.
+    """
+
+    language: Optional[str] = None
+    confidence_threshold: Optional[float] = None
 
 class HumeSentimentAnalyzer:
     """Wrapper for Hume.ai sentiment analysis."""
@@ -44,10 +66,10 @@ class HumeSentimentAnalyzer:
                 sentiment={},
                 toxicity={}
             )
-            
+            transcription = TranscriptionConfig(confidence_threshold=0.3)
             file_path = os.path.abspath(file_path)
 
-            job = self.client.submit_job(None, [config], files=[file_path])
+            job = self.client.submit_job(None, [config], files=[file_path], transcription_config = transcription)
             print("Job submitted successfully")
             job.await_complete()
             print("Job completed")
@@ -69,7 +91,6 @@ class HumeSentimentAnalyzer:
         """
         print(predictions)
         pred = predictions[0]['results']['predictions'][0]['models']['language']['grouped_predictions'][0]['predictions'][0]
-        
         result = {
             'emotions': {emotion['name']: emotion['score'] for emotion in pred['emotions']},
             'sentiments': {sentiment['name']: sentiment['score'] for sentiment in pred['sentiment']},
@@ -114,5 +135,5 @@ if __name__ == "__main__":
     # Load the .env file
     load_dotenv(dotenv_path)
     analyzer = HumeSentimentAnalyzer(os.getenv("HUME_API_KEY"))
-    result = analyzer.analyze_audio("D:/Kent/University Of Kent UK/Projects/Disso/Screening-LLM/data/interviews/1723836354/audio/audio_2_1723836354.wav")
+    result = analyzer.analyze_audio("D:/Kent/University Of Kent UK/Projects/Disso/Screening-LLM/data/interviews/1724694089/audio/audio_2_1724694089.wav")
     analyzer.print_analysis(result)

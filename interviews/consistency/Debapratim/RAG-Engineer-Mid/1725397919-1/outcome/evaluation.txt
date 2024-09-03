@@ -1,0 +1,27 @@
+Based on the provided transcript of the phone interview, I'll evaluate the candidate's performance and suitability for the Entry Level RAG Engineer position. 
+
+1. Experience with RAG pipelines:
+The candidate demonstrated some experience with RAG, particularly in their thesis project. They used RAG for an automated screening system, which shows practical application. However, their explanation lacked depth and specifics about the retrieval process and integration with the LLM. This suggests a basic understanding but potentially limited hands-on experience.
+
+2. Challenges in RAG implementation:
+The candidate mentioned using query decomposition to expand the search space, which is relevant to RAG systems. However, their explanation was somewhat vague and didn't clearly articulate the specific challenges they faced or how they overcame them. This raises questions about their problem-solving skills and depth of understanding in RAG implementation.
+
+3. Experience with LLMs:
+The candidate showed familiarity with several LLMs, including ChatGPT (mistakenly referred to as JadGPT), Claude, Sonnet, and Llama. They provided a basic ranking of these models for reasoning tasks. However, their comparison lacked depth, specific criteria, or examples of how they evaluated the models' performance. This suggests a surface-level understanding of LLMs rather than in-depth knowledge.
+
+Red flags:
+1. Lack of specific details in their explanations, which may indicate limited practical experience or difficulty articulating technical concepts.
+2. Inability to provide concrete examples of challenges faced and solutions implemented in their RAG project.
+3. Surface-level comparison of LLMs without demonstrating deep understanding of their strengths and weaknesses.
+
+Positive aspects:
+1. Has hands-on experience with RAG in a practical project (thesis).
+2. Familiarity with multiple LLMs and some understanding of their comparative performance.
+3. Demonstrated some problem-solving skills by using query decomposition in their RAG implementation.
+
+Conclusion:
+While the candidate shows some promise with their experience in RAG and familiarity with LLMs, their responses lack the depth and specificity expected for an Entry Level RAG Engineer position. Their inability to articulate challenges and solutions clearly, coupled with a surface-level understanding of LLMs, suggests they may not be fully prepared for the role at this time.
+
+Given the requirement to pass only 47% of candidates and the lack of standout qualities in this candidate's responses, I would recommend not moving forward with this candidate at this time.
+
+fail
