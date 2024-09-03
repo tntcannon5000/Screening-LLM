@@ -1,0 +1,8 @@
+[
+    {
+        "interviewer": "Hello! Thank you for taking the time to speak with me today about the Entry Level Tech Reviewer role. I'd like to start by asking you a question related to current technology. What is the latest Pixel Fold model?",
+        "candidate": " The latest Pixel Fold model is the Pixel 9 Pro Fold.",
+        "sentiment": "For this particular response, the candidate exhibited a notable level of calmness (0.32) and interest (0.22), along with moderate levels of positive surprise (0.16) and boredom (0.11), suggesting a composed and engaged demeanor with occasional moments of unexpected intrigue, while also potentially indicating some periods of disengagement or lack of enthusiasm during the interview.",
+        "feedback": "The accuracy of the answer provided is 0%. \n\nThe answer states that the latest Pixel Fold model is the \"Pixel 9 Pro Fold,\" which is incorrect. The latest model in the Pixel Fold series is the \"Google Pixel Fold.\" There is no model called the \"Pixel 9 Pro Fold.\" \n\nFeedback: The candidate should be informed that the name of the latest Pixel Fold model was incorrect. It is important to ensure that the model names are accurate, as this reflects knowledge of current technology products."
+    }
+]

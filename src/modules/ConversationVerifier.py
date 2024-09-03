@@ -63,7 +63,7 @@ def process_qa_pair(chat_log):
             print(f"search queries generated for answer to question: {question}\n")
             print(f"queries are: {str(queries)}\n\n")
             for query in queries:
-                scraper = WebScraper(query, 2)
+                scraper = WebScraper(query, 4)
                 documents.extend(scraper.get_scraped_data())
         # Process and store documents
         text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
@@ -112,6 +112,7 @@ def process_qa_pair(chat_log):
         the candidate. Do not deduct accuracy score because of this.
         3. Do not mention any topics the candidate did not answer if it was not asked in the question.
         4. Do not include a summary at the end of each question answer pair.
+        5. Do not consider your last knowledge update as I am feeding you with current upto date information in the context.
 
         """
         accuracy_prompt = ChatPromptTemplate.from_template(accuracy_template)

@@ -1,0 +1,8 @@
+[
+  {
+    "interviewer": "Hello! Thank you for taking the time to speak with me today about the Entry Level Tech Reviewer role. I'd like to start by asking you a question related to current technology. What is the latest Pixel Fold model?",
+    "candidate": " The latest Pixel Fold model is the Pixel 9 Pro Fold.",
+    "sentiment": "For this particular response, the candidate exhibited a notable level of calmness (0.32) and interest (0.22), along with moderate levels of positive surprise (0.16) and boredom (0.11), suggesting a composed and engaged demeanor with occasional moments of unexpected intrigue, while also potentially indicating some periods of disengagement or lack of enthusiasm during the interview.",
+    "feedback": "The answer provided states that the latest Pixel Fold model is the \"Pixel 9 Pro Fold.\" This is accurate based on the context provided, which confirms that the Pixel 9 Pro Fold is indeed the latest model in the Pixel Fold series, having been announced on August 13, 2024.\n\nAccuracy Score: 100%\n\nFeedback: The answer is correct and aligns with the current information regarding the latest Pixel Fold model. There are no inaccuracies to note."
+  }
+]
